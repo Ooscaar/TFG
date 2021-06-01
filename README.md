@@ -6,11 +6,13 @@ The thesis has the following structure: (could be changed)
 1. Introduction
 2. State of the art of the technology used or applied
 in this thesis
-3..6. Thesis specifics
+3. Thesis specifics
 7. Budget
 8. Conclusions
-9. Future work
+9. Future work  
+
 References
+
 Appendices
 
 ### Introduction
@@ -39,27 +41,27 @@ latexmk -pdf -shell-escape -output-directory=build thesis.tex
 ```
 
 ## Latex packages
-- comment: insert comments in latex
+- **comment**: insert comments in latex
 ```
 Usage:
-\begin{comment}
+\begin{*comment}
 ...
 \end{comment}
 ```
 
-- supertabular: kind of extended tabular package for creating "long" tables (extends tabular package)
+- **supertabular**: kind of extended tabular package for creating "long" tables (extends tabular package)
 
-- graphics: include images
+- **graphics**: include images
 
 - soul: in order to highligth text and etc (usage with \hl)
 
-- booktabs: extra for tables?
+- **booktabs**: extra for tables?
 
-- paralist: to create list (itemize and etc ...)
+- **paralist**: to create list (itemize and etc ...)
 
-- algorithmicx/algorithm: in order to create algorithms (view template example)
+- **algorithmicx**/algorithm: in order to create algorithms (view template example)
 
-- algpseudocode: create pseudocode blocks
+- **algpseudocode**: create pseudocode blocks
 Usage: 
 ```
 \begin{algorithmic}[1]
@@ -70,68 +72,68 @@ Usage:
 end{algorithmic}
 ```
 
-- hvfloat: defines a macro to place objects (tables and figures) and their captions in different positions
+- **hvfloat**: defines a macro to place objects (tables and figures) and their captions in different positions
 ```
 \hvFloat{float type}{floating object}{caption}{label}
 ```
 
-- chngpage: change page layout in middle of the document
+- **chngpage**: change page layout in middle of the document
 
-- url: provide url contexts
+- **url**: provide url contexts
 
-- inputenc: in order to use different encodings (a.k.a accents and etc ..)
+- **inputenc**: in order to use different encodings (a.k.a accents and etc ..)
 
-- xolor: define custom colors
+- **xolor**: define custom colors
 
-- geometry: define document geometry
+- **geometry**: define document geometry
 
-- lipsum: provide random text (Lopsem ...)
+- **lipsum**: provide random text (Lopsem ...)
 
-- afterpage: execute command after the end of the page
+- **afterpage**: execute command after the end of the page
 ```
 \afterpage{\clearpage}
 ```
 
-- parskip: ?
+- **parskip**: ?
 
-- babel: ?
+- **babel**: ?
 
-- amsmath/amsfonts/amssymb: I guess math support ...
+- **amsmath/amsfonts/amssymb**: I guess math support ...
 
-- caption: support for caption on floating elements
+- **caption**: support for caption on floating elements
 ```
 \caption{}
 ```
 
-- fontenc: font encoding
+- *fontenc*: font encoding
 
-- multicol/multirow: ??
+- **multicol/multirow**: ??
 
-- array: extends array and tabular environments
+- **array**: extends array and tabular environments
 
-- relsize: set the font size relative to the current font size
+- **relsize**: set the font size relative to the current font size
 
-- subcaptions: same as captions but for subfigures
+- **subcaptions**: same as captions but for subfigures
 
-- tcolorbox: colored boxes
+- **tcolorbox**: colored boxes
 
-- lscape: place selected of a document in lanscape
+- **lscape**: place selected of a document in lanscape
 
-- lastpage: reference the last page of the document
+- **lastpage**: reference the last page of the document
 
-- acro: acronyms
+- **acro**: acronyms
 
-- appendix: extra control of appendices
+- **appendix**: extra control of appendices
 
-- tocbinding: for show reference in toc
+- **tocbinding**: for show reference in toc
 
-- pgfgantt – Draw Gantt charts with TikZ
+- **pgfgantt** – Draw Gantt charts with TikZ
 
 And extra packages, for the moment:
 
-- microtype: no idea, should look better
+- **microtype**: no idea, should look better
 
-- minted: better source code
+- **minted**: better source code
 ```
 \begin{minted}[bgcolor=gray,breaklines]{python}
 \end{minted}
