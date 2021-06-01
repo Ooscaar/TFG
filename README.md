@@ -37,3 +37,121 @@ To compile and generate the resulting pdf:
 ```
 latexmk -pdf -shell-escape -output-directory=build thesis.tex
 ```
+
+## Latex packages
+- comment: insert comments in latex
+```
+Usage:
+\begin{comment}
+...
+\end{comment}
+```
+
+- supertabular: kind of extended tabular package for creating "long" tables (extends tabular package)
+
+- graphics: include images
+
+- soul: in order to highligth text and etc (usage with \hl)
+
+- booktabs: extra for tables?
+
+- paralist: to create list (itemize and etc ...)
+
+- algorithmicx/algorithm: in order to create algorithms (view template example)
+
+- algpseudocode: create pseudocode blocks
+Usage: 
+```
+\begin{algorithmic}[1]
+	\State first line
+	\Statex continuing first line
+	\State \Call{Proc}{a1, a2}
+	\State \Output Hello World!\
+end{algorithmic}
+```
+
+- hvfloat: defines a macro to place objects (tables and figures) and their captions in different positions
+```
+\hvFloat{float type}{floating object}{caption}{label}
+```
+
+- chngpage: change page layout in middle of the document
+
+- url: provide url contexts
+
+- inputenc: in order to use different encodings (a.k.a accents and etc ..)
+
+- xolor: define custom colors
+
+- geometry: define document geometry
+
+- lipsum: provide random text (Lopsem ...)
+
+- afterpage: execute command after the end of the page
+```
+\afterpage{\clearpage}
+```
+
+- parskip: ?
+
+- babel: ?
+
+- amsmath/amsfonts/amssymb: I guess math support ...
+
+- caption: support for caption on floating elements
+```
+\caption{}
+```
+
+- fontenc: font encoding
+
+- multicol/multirow: ??
+
+- array: extends array and tabular environments
+
+- relsize: set the font size relative to the current font size
+
+- subcaptions: same as captions but for subfigures
+
+- tcolorbox: colored boxes
+
+- lscape: place selected of a document in lanscape
+
+- lastpage: reference the last page of the document
+
+- acro: acronyms
+
+- appendix: extra control of appendices
+
+- tocbinding: for show reference in toc
+
+- pgfgantt – Draw Gantt charts with TikZ
+
+And extra packages, for the moment:
+
+- microtype: no idea, should look better
+
+- minted: better source code
+```
+\begin{minted}[bgcolor=gray,breaklines]{python}
+\end{minted}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

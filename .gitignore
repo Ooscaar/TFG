@@ -8,6 +8,7 @@
 *.run.xml
 *.toc
 *.ipynb
+.ninja_log
 _minted-*/
 __pycache__/
 build
