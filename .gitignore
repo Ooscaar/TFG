@@ -1,0 +1,13 @@
+*-blx.bib
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+/*.log
+*.run.xml
+*.toc
+*.ipynb
+_minted-*/
+__pycache__/
+build

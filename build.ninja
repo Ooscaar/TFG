@@ -1,0 +1,5 @@
+rule thesis
+  command = latexmk -pdf -shell-escape -output-directory=build $in
+  description = thesis $in
+
+build main.pdf: thesis main.tex

@@ -31,3 +31,9 @@ the subject matter.
 
 ## Repo structure
 TODO: emulate "commai" repo
+
+## Usage
+To compile and generate the resulting pdf:
+```
+latexmk -pdf -shell-escape -output-directory=build thesis.tex
+```
