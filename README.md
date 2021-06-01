@@ -1,41 +1,33 @@
 # TFG
 Development of a virtualization framework with LXD
 
-## SSH configuration
-In order to connect to the server/container, we need to:
-- Create ssh profile:
-```
-Host 01.tfgdevops.gold  
-  	HostName ****
-  	User *** 
-	Port *** 
-	TCPKeepAlive yes 
-	ServerAliveInterval 300
-	IdentityFile ~/.ssh/id_operez 
-```
-- Generate ssh keys:
-```
-$: ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_operez
-```
-- Copy keys to the server:
+## Thesis
+The thesis has the following structure: (could be changed)
+1. Introduction
+2. State of the art of the technology used or applied
+in this thesis
+3..6. Thesis specifics
+7. Budget
+8. Conclusions
+9. Future work
+References
+Appendices
 
-```
-$: ssh-copy-id -i ~/.ssh/id_operez.pub 01.tfgdevops.gold
-```
-This will copy the content of ~/.ssh/id_rsa.pub into the ~/.ssh/authorized_keys file on the machine to which you want to connect. If the file already exists, the keys are appended to its end.
+### Introduction
+An Introduction that clearly states the rationale of the thesis that includes:
+1. Statement of purpose (objectives).
+2. Requirements and specifications.
+3. Methods and procedures, citing if this work is a continuation of another project or
+it uses applications, algorithms, software or hardware previously developed by other
+authors.
+4. Work plan with tasks, milestones and a Gantt diagram.
+5. Description of the deviations from the initial plan and incidences that may have
+occurred.
 
----
-guide https://docs.fedoraproject.org/en-US/fedora/rawhide/system-administrators-guide/
+### State of the art
+A background, comprehensive review of the literature is required. This is known as the
+Review of Literature and should include relevant, recent research that has been done on
+the subject matter.
 
-## VNC configuration
-In order to connect to the server with a graphical viewer, we need to:
-- Install vncviewer for fedora (tiger-vnc)
-```
-$: sudo dnf install tigervnc
-``` 
-- Set up the vnc viewer
-```
-$: vncviewer -shared -via  01.tfgdevops.gold localhost:1 
-```
-
-
+## Repo structure
+TODO: emulate "commai" repo
