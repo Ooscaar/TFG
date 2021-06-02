@@ -8,6 +8,25 @@
 \lipsum[8]
 Read de book \cite{einstein} of Einstein.
 
+Buenos dias, como te encuentras
+\begin{listing}[H]
+	\begin{minted}[bgcolor=background]{typescript}
+		SELECT data.key FROM data
+		  WHERE data.value IN
+		(SELECT MAX(data.value) FROM data)
+	\end{minted}
+	\caption{Código SQL, funcionas bien?i}
+	\label{listings:como va esto}
+\end{listing}
+
+\begin{listing}[H]
+	\inputminted[bgcolor=background]{typescript}{index.ts}
+	\caption{Ponemos typescript}
+	\label{index.ts for lxce}
+\end{listing}
+
+
+
 \begin{figure}[H]
 \label{fig:prototype1}
 \centering
@@ -42,3 +61,6 @@ Read de book \cite{einstein} of Einstein.
 \end{tabular}
 }
 \end{table}
+
+
+
