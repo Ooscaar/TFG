@@ -9,6 +9,9 @@
 *.toc
 *.ipynb
 *.log
+*.lof
+*.lol
+*.lot
 *.lol
 *.out
 *.toc
