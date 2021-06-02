@@ -1,15 +1,19 @@
 
-%%%%%%%%%%%%%%%%
-%%% IMPORTS %%%
-%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% IMPORTS %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[a4paper,12pt]{article}
 
 \input{tools/packages.tex}
 \input{tools/styles.tex}
 
-%%%%%%%%%%%%%%%%
-%%% DOCUMENT %%%
-%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DOCUMENT: main.tex            %%
+%% AUTHOR: Òscar Pérez Castillo  %%
+%% UNIVERSITY: UPC               %%
+%% DATE: 02/06/2021              %%
+%% VERSION: v0.1                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
 %%% COVER %%%
@@ -38,83 +42,59 @@
 \input{code/general/revision_history.tex}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% INTRODUCTION: SECTIONS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%% 01-INTRODUCTION %%%
 \newpage
 \input{01-introduction.tex}
+\label{sec:introduction}
 
 %%% 02-STATE OF THE ART %%%
 \input{02-state.tex}
+\label{sec:state}
 
-%%% 03-METHODOLOGY %%%
-\input{03-methodoly.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% RESULTS: SECTIONS %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% RESULTS: SECTIONS %%%
-
-%%% SECTION3 %%%
-\newpage
-%\vspace*{2cm}
-\section{Section 3}
-\label{sec:sec3}
-
-\lipsum[4]  \lipsum[5]
-\lipsum[6]  \lipsum[7]
-
-\subsection{Subsection}
-\label{sec:subsec3.1}
-The book \cite{latexcompanion} \lipsum[15]
-
-\include{code/general/codi_tempdistrib}
-
-%%% SECTION4 %%%
-\input{section4}
-
-%%% SECTION5 %%%
-\newpage
-%\vspace*{2cm}
-\section{Section 5}
-\label{sec:sect5}
-\lipsum[4]
-
-\subsection{Overview}
-\label{subsec:sect5Overview}
-\lipsum[10]
-Visite the Knuth repository \cite{knuthwebsite}.
-
-%%% TESTING %%%
+%%% 03-METHODOLY %%%
 \clearpage
-%\vspace*{2cm}
-\section{Experiments and results}
-\label{sec:tests}
-\lipsum[9]
+\input{03-methodology.tex}
+\label{sec:methodology}
 
-%%% BUDGET %%%
+%%% 04-IMPLEMENTATION %%%
 \clearpage
-\section{Budget}
- {\selectlanguage{english}
-  \foreignlanguage{english}{Depending on the thesis scope this document should include:}}
+\input{04-implementation.tex}
+\label{sec:implementation}
 
-%%% ENVIRONMENT %%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FINAL PART: SECTIONS %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% 05-BUDGET %%%
 \clearpage
-\section[Environment Impact (Optional)]{{Environment Impact (Optional)}}
+\input{05-budget.tex}
+\label{sec:budget}
 
- {Whether the tasks that have led to the realization of this thesis, as if its results have identifiable environmental
-  impact, describe it in this section.}
-
-%%% CONCLUSIONS AND FUTURE %%%
+%%% 06-CONCLUSIONS %%%
 \clearpage
-\section{Conclusions}
+\input{06-conclusions.tex}
 \label{sec:conclusions}
 
-\lipsum[4]
+%%% 07-FUTURE WORK %%%
+\input{07-future-work.tex}
+\label{sec:futurework}
 
-\lipsum[3]
 
-\section{Future Work}
-\label{sec:futwork}
-
-\lipsum[10]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% EXTRA: SECTIONS %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% BIBLIOGRAPHY %%%
+
 \newpage
 
 \medskip
@@ -122,7 +102,7 @@ Visite the Knuth repository \cite{knuthwebsite}.
 \bibliographystyle{unsrt}
 \bibliography{bibliography.bib}
 
-%%% ANNEX %%%
+%%% EXTRA-ANNEX %%%
 \clearpage
 \newpage
 \begin{appendices}
