@@ -1,3 +1,0 @@
-		SELECT data.key FROM data
-		  WHERE data.value IN
-		(SELECT MAX(data.value) FROM data)

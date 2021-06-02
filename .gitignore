@@ -8,6 +8,10 @@
 *.run.xml
 *.toc
 *.ipynb
+*.log
+*.lol
+*.out
+*.toc
 .ninja_log
 _minted-*/
 __pycache__/
