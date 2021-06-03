@@ -1,9 +1,12 @@
+%%%%%%%%%%%%%%%%%%%%%
+%% 01-INTRODUCTION %%
+%%%%%%%%%%%%%%%%%%%%%
 \clearpage\section{Introduction}
 
-{An Introduction that clearly states the rationale of the thesis that includes:}
+%%% Introduction %%%
+An Introduction that clearly states the rationale of the thesis that includes:
 
-\begin{enumerate}
-\item {Statement of purpose (objectives).}
+\begin{enumerate} \item {Statement of purpose (objectives).}
 \item {Requirements and specifications.}
 \item {Methods and procedures, citing if this work is a continuation of another project or it uses applications, algorithms,
 software or hardware previously developed by other authors.}
@@ -12,23 +15,72 @@ software or hardware previously developed by other authors.}
 \item {Description of the deviations from the initial plan and incidences that may have occurred. }
 \end{enumerate}
 
-\bigskip
-
-{The minimum chapters that this thesis document should have are described below, nevertheless they can have different
-names and more chapters can be added.}
-
+An Introduction that clearly states the rationale of the thesis that includes:
 
 \bigskip
 
-\subsection{Gantt Diagram}
+Virtualization is a computer mechanism that allows a single computer to host multiple virtual machines, where each system has the ability of running a completely different operating system than the main machine. 
+
+One kind of virtualization it is "OS-level virtualization" (or containerization), which is a mechanism in which the operating system, throught different os level functionalities, creates user instances (containers). This instances can then act as as independent systems from their point of view, but just processes from the operating system view. This enables a light weight solution with strong independency.
+
+On top of that technology, several systems have emerged over the years. One of those systems or technology is LXC, which is a user level interface for the technology mentioned before. LXC goal is to create an environment as close as possible as linux distribution, without the need of a separate kernel.
+
+So, the objective of this thesis was to create a framework in top of lxc in order to satisfy specific needs and simplify the management of the lxc interface.
+
+\bigskip
+
+%%% SECTION: Requirement and specifications %%%
+\subsection{Requirements and specifications}
+\label{ssec:requirements}
+The requirements for this thesis was to develop a framework on top of the lxc/lxd tools, in which we could manage the differents containers in such a way that:
+\begin{enumerate}
+	\item {Group by domains}
+	\item {Alias containers}
+	\item {Add proxies by a configuration file}
+	\item {Set up shared locations }
+\end{enumerate}
+
+And then develop two differents command and a simple web interface to manage all:
+\begin{itemize}
+	\item {lxce: command for managing the containers in one host}
+	\item {lxce-admin: command for managing the different host with lxce installed}
+	\item {web interface:}
+	\item {Set up shared locations }
+\end{itemize}
+
+%%% SECTION: Previous efforts %%%
+\subsection{Previous efforts}
+\label{ssec:previous}
+The thesis began with the two commands (lxce and lxce-admin) in an initial version:
+\begin{itemize}
+	\item {lxce: this command was in and initial version but it lack a lot of different feature along robustens}
+	\item {lxce-admin: this command was really simple ..}
+\end{itemize}
+The two were coded in javascript 
+
+For the web interface no versions were already made, so it was complety written from the beginning
+\begin{itemize}
+	\item {lxce: this command was in and initial version but it lack a lot of different feature along robustens}
+	\item {lxce-admin: this command was really simple ..}
+\end{itemize}
+
+%%% SECTION: Work plan %%%
+\subsection{Work plan}
 \label{ssec:gantt}
+For the organization of the project we set three specified three main goals:
+\begin{itemize}
+	\item {Improve the lxce command, integrating all the features and resolving the exising problems}
+	\item {Integrate the admin command in order to integrate all the improvements}
+	\item {Based on the time, create a minimal interface visualitzation for all the containers ...}
+\end{itemize}
+
+Where we can see summaritze it in:
 \begin{figure}[H]
     \centering
-    %\includegraphics[width=13cm]{img/diagram_gantt.png}
     \input{code/general/gantt_diagrama.tex}
     \caption[Project's Gantt diagram]{\footnotesize{Gantt diagram of the project}}
     \label{fig:gantt}
 \end{figure}
-
+where no significant incidences nor deviations ocurred.
 \bigskip
 

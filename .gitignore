@@ -13,7 +13,9 @@
 *.lol
 *.lot
 *.lol
+main.pdf
 *.out
+main.synctex.gz
 *.toc
 .ninja_log
 _minted-*/
