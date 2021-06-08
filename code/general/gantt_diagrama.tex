@@ -36,12 +36,18 @@ bar height=0.7]{1}{24}
 
  % WEB ADMIN
  \ganttgroup[inline=false]{Web admin application}{17}{20}\\
- \ganttbar[progress=90,bar/.style={draw,fill=black}]{Learn React/redux}{17}{19} \\
- \ganttbar[progress=10,bar/.style={draw,fill=black}]{Implement application}{20}{20} \\
+ \ganttbar[progress=100,bar/.style={draw,fill=black}]{Learn React/redux}{17}{19} \\
+ \ganttbar[progress=100,bar/.style={draw,fill=black}]{Implement application}{20}{20} \\
+
+ % THESIS
+ \ganttgroup[inline=false]{Thesis}{20}{24}\\
+ \ganttbar[bar/.style={draw,fill=green}]{Writing thesis}{20}{22} \\
+ \ganttbar[bar/.style={draw,fill=green}]{Presentation}{23}{24} \\
 
  % relations
 \ganttlink{elem2}{elem4}
 \ganttlink{elem8}{elem10}
+\ganttlink{elem10}{elem13}
 
 
 \end{ganttchart}

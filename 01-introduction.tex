@@ -4,79 +4,65 @@
 \clearpage\section{Introduction}
 
 %%% Introduction %%%
-An Introduction that clearly states the rationale of the thesis that includes:
-
-\begin{enumerate} \item {Statement of purpose (objectives).}
-\item {Requirements and specifications.}
-\item {Methods and procedures, citing if this work is a continuation of another project or it uses applications, algorithms,
-software or hardware previously developed by other authors.}
-\item {Work plan with tasks, milestones and a Gantt diagram.}
-
-\item {Description of the deviations from the initial plan and incidences that may have occurred. }
-\end{enumerate}
-
-An Introduction that clearly states the rationale of the thesis that includes:
-
-\bigskip
-
 Virtualization is a computer mechanism that allows a single computer to host multiple virtual machines, where each system has the ability of running a completely different operating system than the main machine. 
 
-One kind of virtualization it is "OS-level virtualization" (or containerization), which is a mechanism in which the operating system, throught different os level functionalities, creates user instances (containers). This instances can then act as as independent systems from their point of view, but just processes from the operating system view. This enables a light weight solution with strong independency.
+One kind of virtualization it is the 'OS-level virtualization' (or containerization), which is a paradigm in which the operating system, throught different os level functionalities, can create user instances, where those instances are what we refer as "containers" as they have their own set of os-resources properties in their own environment.
 
-On top of that technology, several systems have emerged over the years. One of those systems or technology is LXC, which is a user level interface for the technology mentioned before. LXC goal is to create an environment as close as possible as linux distribution, without the need of a separate kernel.
+On top of that technology, several systems and technologies have emerged over the years. In Linux, the "Linux Containers project" has been working on containers for over ten years and has develop a set of utilities to provide a framework as close as what you get from a VM (virtual machine). 
 
-So, the objective of this thesis was to create a framework in top of lxc in order to satisfy specific needs and simplify the management of the lxc interface.
+One of that utilities is 'LXC/LXD'. These utilities are a set of tools that allow us to run unmodified Linux distributions inside containers without the overhead of creating a virtual machine. This is extremely helpfull because we can create diferent linux distributions in one unique linux machine.
+
+So, the objective of this thesis is to provide a framework on top of the 'LXC/LXD' utilities to unify some of their commands and improve the management of the containers.
 
 \bigskip
 
 %%% SECTION: Requirement and specifications %%%
 \subsection{Requirements and specifications}
 \label{ssec:requirements}
-The requirements for this thesis was to develop a framework on top of the lxc/lxd tools, in which we could manage the differents containers in such a way that:
-\begin{enumerate}
-	\item {Group by domains}
-	\item {Alias containers}
-	\item {Add proxies by a configuration file}
-	\item {Set up shared locations }
-\end{enumerate}
+The "lxc/lxd" set of tools are used for creating such "containers". Once created, we can start/stop them, add them shared folders, manage memory, manage cpu resources, set up linux distribution ...
+But a lot of commands for properly set up a container with diferents configurations (folders, proxies...) were needed. Also, when the number of containers increase, we have no way or organize them of categorize them.
 
-And then develop two differents command and a simple web interface to manage all:
+So the requirements, based on those problems, were:
 \begin{itemize}
-	\item {lxce: command for managing the containers in one host}
-	\item {lxce-admin: command for managing the different host with lxce installed}
-	\item {web interface:}
-	\item {Set up shared locations }
+	\item {Be able to manage a common container configuration by a text file}
+	\item {Possibiliy to group containers by "domains"}
+	\item {Tag containers by an alias name}
+	\item {Set up proxies based on a text file}
 \end{itemize}
+
+By developing the following base of tools:
+\begin{itemize}
+	\item {\textbf{lxce}: base command installed on top of "lxc". Should be responsible for configuring all the containers based on configuration files and commands.}
+	\item {\textbf{lxce-admin}: command for managing the different hosts with lxce installed in a centralized location}
+	\item {\textbf{web interface}: minimal web application for visualiazing all the containers and manage them with a simple API}
+\end{itemize}
+
 
 %%% SECTION: Previous efforts %%%
 \subsection{Previous efforts}
 \label{ssec:previous}
 The thesis began with the two commands (lxce and lxce-admin) in an initial version:
 \begin{itemize}
-	\item {lxce: this command was in and initial version but it lack a lot of different feature along robustens}
-	\item {lxce-admin: this command was really simple ..}
+	\item {\textbf{lxce}: this command was in an initial version but it lack a lot of different features along robusteness}
+	\item {\textbf{lxce-admin}: this command was simple but should be extended for improve some features}
 \end{itemize}
-The two were coded in javascript 
+The two were written in Javascript.
 
-For the web interface no versions were already made, so it was complety written from the beginning
-\begin{itemize}
-	\item {lxce: this command was in and initial version but it lack a lot of different feature along robustens}
-	\item {lxce-admin: this command was really simple ..}
-\end{itemize}
+For the web interface no versions were made, so it should be coded from the beginning.
 
 %%% SECTION: Work plan %%%
 \subsection{Work plan}
 \label{ssec:gantt}
-For the organization of the project we set three specified three main goals:
+For the work plan we set the following goals, in order of preference:
 \begin{itemize}
-	\item {Improve the lxce command, integrating all the features and resolving the exising problems}
-	\item {Integrate the admin command in order to integrate all the improvements}
-	\item {Based on the time, create a minimal interface visualitzation for all the containers ...}
+	\item {Develop a robust, well tested version for the "lxce" command}
+	\item {Integrated the improvements in the centralized "lxce-admin" command}
+	\item {Based on left time, develop the web interface application}
 \end{itemize}
 
+\newpage
 Where we can see summaritze it in:
 \begin{figure}[H]
-    \centering
     \input{code/general/gantt_diagrama.tex}
     \caption[Project's Gantt diagram]{\footnotesize{Gantt diagram of the project}}
     \label{fig:gantt}
