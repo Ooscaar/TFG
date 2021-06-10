@@ -8,7 +8,7 @@ Virtualization is a computer mechanism that allows a single computer to host mul
 
 One kind of virtualization it is the 'OS-level virtualization' (or containerization), which is a paradigm in which the operating system, throught different os level functionalities, can create user instances, where those instances are what we refer as "containers" as they have their own set of os-resources properties in their own environment.
 
-On top of that technology, several systems and technologies have emerged over the years. In Linux, the "Linux Containers project" has been working on containers for over ten years and has develop a set of utilities to provide a framework as close as what you get from a VM (virtual machine). 
+On top of that technology, several systems and technologies have emerged over the years. In Linux, the "Linux Containers project" has been working on containers for over ten years and has develop an open source containers platform that provides a set of utilities to provide a framework as close as what you get from a VM (virtual machine). 
 
 One of that utilities is 'LXC/LXD'. These utilities are a set of tools that allow us to run unmodified Linux distributions inside containers without the overhead of creating a virtual machine. This is extremely helpfull because we can create diferent linux distributions in one unique linux machine.
 
@@ -19,6 +19,7 @@ So, the objective of this thesis is to provide a framework on top of the 'LXC/LX
 %%% SECTION: Requirement and specifications %%%
 \subsection{Requirements and specifications}
 \label{ssec:requirements}
+\TODO{poner que el trabajo esta enfocado a poder tener maquinas virtuales de una manera muy light}
 The "lxc/lxd" set of tools are used for creating such "containers". Once created, we can start/stop them, add them shared folders, manage memory, manage cpu resources, set up linux distribution ...
 But a lot of commands for properly set up a container with diferents configurations (folders, proxies...) were needed. Also, when the number of containers increase, we have no way or organize them of categorize them.
 
@@ -56,12 +57,12 @@ For the web interface no versions were made, so it should be coded from the begi
 For the work plan we set the following goals, in order of preference:
 \begin{itemize}
 	\item {Develop a robust, well tested version for the "lxce" command}
-	\item {Integrated the improvements in the centralized "lxce-admin" command}
+	\item {Integrate the "lxce" improvements in the centralized "lxce-admin" command}
 	\item {Based on left time, develop the web interface application}
 \end{itemize}
 
 \newpage
-Where we can see summaritze it in:
+Where we can see summaritze in the following Gantt digram:
 \begin{figure}[H]
     \input{code/general/gantt_diagrama.tex}
     \caption[Project's Gantt diagram]{\footnotesize{Gantt diagram of the project}}

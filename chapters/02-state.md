@@ -15,4 +15,7 @@ Explicar:
 
 ## Lxd
 
-TODO: pensar otra organizacion en todo caso
+## Link
+- https://www.redhat.com/en/topics/containers/whats-a-linux-container : general overview of the containers and brief view the comparison of the systems.
+- [image] [link]
+- [link] 
