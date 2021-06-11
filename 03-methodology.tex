@@ -1,5 +1,482 @@
-%%% METHODOLOGY %%%
+%%%%%%%%%%%%%%%%%%%%
+%% 03-METHODOLOGY %%
+%%%%%%%%%%%%%%%%%%%%
 \clearpage\section{Methodology / project development}
 
-{The Methodology is included in this chapter and should include all relevant methods that were utilized as well as research methods and measurements, software and hardware development, ...}
+In order to construct our framework we had to develop a set of tools. Basically we developed two commands and a minimal web application:
+\begin{itemize}
+	\item{LXCE: command constructed on top of LXD}
+	\item{LXCE-admin: }
+	\item{Web-admin} 
+\end{itemize}
+\DUDA{explicar cada uno más detallado?? / los nombres de las herramientas en mayus o minus}
 
+This chapter will provide with the technical implementation of each tool and how they are constructed and organized. 
+
+%%% LXCE %%%
+\subsection{LXCE}
+The first tool developed in this thesis is what we have called 'lxce'.
+
+It is basically a command line tool coded in Typescript built on top of the 'lxc' command line tool with the idea of improving the management and set up of the containers.
+[TODO: site chapter]
+\TODO{Site chapter}
+
+The problem with the 'lxc' tool is that in order to have a properly set up container we would have to do the following steps, for every container:
+\begin{itemize}
+	\item{Create the container with linux image specified}
+		\begin{minted}[bgcolor=background]{text}
+host# lxc launch ubuntu:20.04 container
+		\end{minted}
+	\item{Configure password}
+		\begin{minted}[breaklines,bgcolor=background]{text}
+host# lxc exec ${name} -- bash -c "echo ${user}:${password} | chpasswd"
+		\end{minted}
+	\item{Set up shared folders}
+		\begin{minted}[breaklines,bgcolor=background]{text}
+host# lxc config device add containers myfolder disk source=/www/data path=/data
+		\end{minted}
+	\item{Set up proxies, selecting each time a non used host port}
+		\begin{minted}[breaklines,bgcolor=background]{text}
+host# lxc config device add myproxy proxy listen=tcp:0.0.0.0:4000 connect=tcp:10.1.2.1:80
+		\end{minted}
+\end{itemize}
+
+Then, if we would like to access the containers by ssh or vnc we would have to create also the corresponding configuration files.
+
+Everything is managed individually, which is good for a basic set up, but for situations where we are working with +50 containers is unmanagible??. 
+
+So the idea of this command is to resolve such limitations with a command which could:
+\begin{itemize}
+	\item{Manage containers by configuration files, with a default configuration file}
+	\item{Organize containers by "domains"}
+	\item{Be able to reference containers by aliases}
+	\item{Configure proxies and shared locations with a configuration file}
+	\item{Generate SSH and VNC configuration files to be distributed}
+\end{itemize}
+
+\subsubsection{Configuration files}
+The first thing we have to define are the configurations files and how are they are going to be organized.
+
+Firt of all, we will have 5 different types of configuration files:
+\begin{itemize}
+	\item{\textbf{container-default.conf}: default configuration file}
+	\item{\textbf{lxce.conf}: general command configuration}
+	\item{individual container configuration files}
+	\item{\textbf{remmina} (vnc service) configuration files}
+	\item{\textbf{ssh} configurations files}
+\end{itemize}
+
+So a basic set up with two domains (default and derecho) and one container created in each of the domains would look like:
+
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+/etc/lxce 
+|--- container.conf.d 			
+|   |--- default 			
+|   |   '--- voiceless-blue
+|   '--- derecho 			
+|       '--- relieved-beige
+|--- container_default.conf 		
+|--- lxce.conf 			
+|--- remmina 		
+|   |--- default 
+|   |   '--- oscar-vm.default.voiceless-blue.remmina
+|   '--- derecho 
+|       '--- oscar-vm.derecho.relieved-beige.remmina
+'--- ssh 	
+    |--- default 
+    |   '--- voiceless-blue.conf
+    '--- derecho
+        '--- relieved-beige.conf
+\end{minted}
+\caption{lxce directory structure}
+\label{listings: lxce directory structure /etc/lxce}
+\end{listing}
+
+In this way we are able to manage the container configurations from our command line and update/delete files based on the state of the command.
+
+Where the configurations files content is the following:
+\begin{itemize}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\newpage
+\item{\textbf{container-default.conf}
+
+This file acts as a template for every container to be created.
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{json}
+{
+  "name": "",                           
+  "alias": "",                          
+  "user": "",
+  "id_domain": 0,
+  "id_container": 0,
+
+  "domain": "default",                 
+  "base": "ubuntu:20.04",             
+  "userData": "/datasdd",            
+
+  "proxies": [                      
+    {
+      "name": "ssh",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 22
+    },
+    {
+      "name": "test",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 3000
+    }
+  ],
+}
+\end{minted}
+\caption{/etc/lxce/container-default.conf}
+\label{listings: /etc/lxce/container-default.conf}
+\end{listing}
+\TODO{Think the convention for the name of the figures and the descriptions of the listings}
+}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\newpage
+\item{\textbf{lxce.conf}
+
+This file specifies different parameters of the host where the command is installed, such as:
+\begin{itemize}
+	\item{SSH IP}
+	\item{Hostname}
+	\item{Local VNC server configuration}
+	\item{Seed used for generating passwords}
+	\item{List of container domains currently in the host}
+	\item{List of locations available for the shared containers folders location}
+\end{itemize}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{json}
+{
+  "hypervisor": {
+    "SSH_hostname": "localhost",
+    "SSH_suffix": "oscar-vm",
+    "VNC_server": "localhost",
+    "VNC_port": 5901
+  },
+  "seed": "4b5a003f0e1715df",
+  "domains": [
+    {
+      "id": 0,
+      "name": "default"
+    },
+    {
+      "id": 1,
+      "name": "derecho"
+    }
+  ],
+  "locations": [
+    "/datasdd"
+  ]
+}
+\end{minted}
+\caption{lxce.conf}
+\label{listings: /etc/lxce/lxce.conf}
+\TODO{explain all the parameters}
+\end{listing}
+}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\newpage
+\item{\textbf{container configuration file}
+
+This files list the configured parameters for each container and the ids that uniquelly identifies it
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{json}
+{
+  "name": "voiceless-blue",
+  "alias": "",
+  "user": "ubuntu",
+  "id_domain": 0,
+  "id_container": 0,
+  "domain": "default",
+  "base": "ubuntu:20.04",
+  "userData": "/datasdd",
+  "proxies": [
+    {
+      "name": "ssh",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 22
+    },
+    {
+      "name": "test",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 3000
+    }
+  ],
+}
+\end{minted}
+\caption{container configuration file}
+\label{listings: /etc/lxce/container.conf.d/default/voiceless-blue}
+\end{listing}
+}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\clearpage
+\item{\textbf{VNC configuration}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+[remmina]
+ssh_tunnel_privatekey=
+name=oscar-vm.default.voiceless-blue          # Container name
+ssh_tunnel_passphrase=
+password=.                                    # For saving VNC password
+...
+server=localhost:5901                         # VNC server
+disablepasswordstoring=0
+ssh_tunnel_username=ubuntu
+disableclipboard=0
+window_maximize=1
+ssh_tunnel_password=.                         # For saving ssh password
+enable-autostart=0
+proxy=
+ssh_tunnel_server=localhost:10000             # Container SSH Port
+ssh_tunnel_auth=0
+group=oscar-vm.upc.edu                        
+...
+protocol=VNC
+username=ubuntu                               # VNC username
+showcursor=0
+colordepth=32
+
+\end{minted}
+\caption{REMMINA configuration file}
+\label{listing: /etc/lxce/remmina/default/oscar-vm.default.voiceless-blue.remmina}
+\end{listing}
+}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\item{\textbf{SSH configuration}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Host oscar-vm.default.voiceless-blue
+   Hostname localhost
+   User ubuntu
+   Port 10000
+   TCPKeepAlive yes
+   ServerAliveInterval 300
+\end{minted}
+\caption{ssh configuration file}
+\label{listings: /etc/lxce/ssh/default/voiceless-blue.conf}
+\end{listing}
+}
+\end{itemize}
+
+\newpage
+\subsubsection{Commands}
+\DUDA{Explicar aqui como esta implementado??}
+For the commands that are available for our command, we have the following structure:
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce [command] <options> <flags>
+
+Commands:
+  lxce alias       Manage containers aliases
+  lxce completion  Output completions scripts
+  lxce delete      Delete containers and configurations/folders related
+  lxce init        Initialize lxce command
+  lxce launch      Launch containers
+  lxce list        List containers properties
+  lxce pass        Compute password from containers
+  lxce proxy       Delete and restart proxies 
+  lxce rebase      Relaunch container with new base specified
+  lxce show        Show containers configurations files
+  lxce start       Start containers
+  lxce stop        Stop containers
+  lxce uninstall   Remove all configurations from the lxce command
+
+Flags
+      --version  Show version number        
+  -h, --help     Show help                 
+  -v, --verbose
+\end{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LIST OF COMMANDS %%%
+\newpage
+\textbf{lxce alias}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce alias [command] <options> <flags>
+
+Commands:
+  lxce alias set    set container alias
+  lxce alias unset  unset container alias
+  lxce alias check  check container alias
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce alias}
+\label{listings: lxce alias}
+\end{listing}
+
+\textbf{lxce delete}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce delete <options> <flags>
+
+Options
+  -g, --global  apply to all containers                         
+  -d, --domain  domain name for a group of containers            
+  -n, --name    container name                                   
+  -a, --alias   container alias                                 
+  -y, --yes     yes to questions                                
+
+Flags
+      --version  Show version number                            
+  -h, --help     Show help                                      
+  -v, --verbose
+
+Examples:
+  lxce delete --global                   Deletes all containers and
+                                         configurations related
+  lxce delete -d google                  Deletes all containers within 
+                                         google domain
+  lxce delete -d google -n still-yellow  Deletes container referenced 
+                                         by name
+  lxce delete -d google -a alice         Deletes container referenced
+                                         by alias
+\end{minted}
+\caption{lxce delete}
+\label{listings: lxce delete}
+\end{listing}
+
+\textbf{lxce init}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce init <flags>
+
+Flags
+      --version  Show version number                            
+  -h, --help     Show help                                      
+  -v, --verbose
+\end{minted}
+\caption{lxce init}
+\label{listings: lxce init}
+\end{listing}
+
+\textbf{lxce launch}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce launch <options> <flags>
+
+Options
+  -d, --domain   domain for the container/containers         
+  -r, --range    range of container (ex: -r 5)             
+  -n, --names    names/name of the containers/container                  
+  -a, --aliases  aliases/alias of the containers/container               
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+
+Examples:
+  lxce launch -d google                     Launch one container within 
+                                            google with a random name
+  lxce launch -d google -r 3                Launch three containers 
+                                            within google with 
+					    random names
+  lxce launch -d google -r 3 -n back front  Launch three containers 
+  base                                      within google with 
+                                            specified names
+  lxce launch -d google -r 3 -n back front  Launch three containers with 
+  base -a alice bob eve                     name and alias
+                                            specified
+  lxce launch -d google -r 3 -a alice bob   Launch three containers 
+  eve                                       with random names and 
+                                            alias specified
+\end{minted}
+\caption{lxce launch}
+\label{listings: lxce launch}
+\end{listing}
+
+\textbf{lxce list}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+\end{minted}
+\caption{lxce list}
+\label{listings: lxce list}
+\end{listing}
+
+\textbf{lxce pass}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+\end{minted}
+\caption{lxce pass}
+\label{listings: lxce pass}
+\end{listing}
+
+\textbf{lxce proxy}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+\end{minted}
+\caption{lxce proxy}
+\label{listings: lxce proxy}
+\end{listing}
+
+\textbf{lxce rebase}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+\end{minted}
+\caption{lxce rebase}
+\label{listings: lxce rebase}
+\end{listing}
+
+\textbf{lxce show}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+\end{minted}
+\caption{lxce show}
+\label{listings: lxce show}
+\end{listing}
+
+\textbf{lxce start}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+\end{minted}
+\caption{lxce start}
+\label{listings: lxce start}
+\end{listing}
+
+\textbf{lxce stop}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+\end{minted}
+\caption{lxce stop}
+\label{listings: lxce stop}
+\end{listing}
+
+\textbf{lxce uninstall}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+\end{minted}
+\caption{lxce uninstall}
+\label{listings: lxce uninstall}
+\end{listing}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Implementation}
+ 
+
+%%% LXCE-ADMIN %%%
+\subsection{LXCE-admin}
+
+
+%%% WEB-ADMIN %%%
+\subsection{Web-admin}
