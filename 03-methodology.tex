@@ -54,6 +54,8 @@ So the idea of this command is to resolve such limitations with a command which 
 	\item{Generate SSH and VNC configuration files to be distributed}
 \end{itemize}
 
+Once defined all the specifications for the command we will explain how are the configuration files organized and the list of subcommands implemented.
+
 \subsubsection{Configuration files}
 The first thing we have to define are the configurations files and how are they are going to be organized.
 \TODO{explain their usage in a general overview}
@@ -713,10 +715,267 @@ Flags
 %% END OF COMMANDS %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\newpage
 %%% LXCE-ADMIN %%%
 \subsection{LXCE-admin}
+The second command implemented is intented to be used as an administration tool for managing the hosts with "lxce" installed.  
+
+The idea is to have a central host with remote access to a list of hosts with the command line tool installed "lxce" in order to syncronize all configuration files from all the available hosts. 
+
+Because with all the configurations files in a centralized location we have:
+\begin{itemize}
+	\item{Complete view of all the containers across differents hosts}
+	\item{Access to configuration files for SSH and VNC services}
+	\item{Ability to compute password for remote access to containers}
+\end{itemize}
+
+The syncronization is done using a sync tool (rsync) that enable us to have syncronized folders between different hosts.
+
+
+\subsubsection{Commands}
+Taking into account the previous ideas we have develop the following set of commands:
+
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin [command] <options> <flags>
+
+Commands:
+  lxce-admin config   Configure hosts and configurations files
+  lxce-admin pass     Get user and password from container
+  lxce-admin remmina  Remmina container access
+  lxce-admin vnc      VNC container access
+
+Flags
+      --version  Show version number                                  
+  -h, --help     Show help                                            
+  -v, --verbose
+\end{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LIST OF COMMANDS %%%
+\newpage
+\textbf{lxce-admin config}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin [command] <flags>
+
+Commands:
+  lxce-admin config add     Add host and sync files
+  lxce-admin config list    List configured hosts
+  lxce-admin config remove  Remove host and associated files
+  lxce-admin config update  Update host associated files
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config}
+\label{listings: lxce-admin config}
+\end{listing}
+
+\textbf{lxce-admin config add}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin config add <options> <flags>
+
+Options
+      --dry-run                                                        
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config add}
+\label{listings: lxce-admin config add}
+\end{listing}
+
+\textbf{lxce-admin config list}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin config list
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config list}
+\label{listings: lxce-admin config list}
+\end{listing}
+
+\textbf{lxce-admin config remove}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin config remove <options> <flags>
+
+Options
+      --host     configured host                             
+      --dry-run                                              
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config remove}
+\label{listings: lxce-admin config remove}
+\end{listing}
+
+\textbf{lxce-admin config update}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin config update <options> <flags>
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config update}
+\label{listings: lxce-admin config update}
+\end{listing}
+
+\newpage
+\textbf{lxce-admin pass}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin pass <options> <flags>
+
+Options
+      --host    configured host                              
+  -d, --domain  container domain                             
+  -n, --name    container name                               
+  -a, --alias   container alias                              
+
+Flags
+      --version  Show version number                        
+  -h, --help     Show help                                  
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin pass}
+\label{listings: lxce-admin pass}
+\end{listing}
+
+\textbf{lxce-admin remmina}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin remmina <options> <flags>
+
+Options
+      --host    configured host                              
+  -d, --domain  container domain                             
+  -n, --name    container name                               
+  -a, --alias   container alias                              
+
+Flags
+      --version  Show version number                        
+  -h, --help     Show help                                  
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin remmina}
+\label{listings: lxce-admin remmina}
+\end{listing}
+
+\newpage
+\textbf{lxce-admin vnc}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin vnc <options> <flags>
+
+Options
+      --host     configured host                             
+  -d, --domain   container domain                            
+  -n, --name     container name                              
+  -a, --alias    container alias                             
+      --scale    scale vnc viewer                            
+      --dry-run                                              
+
+Flags
+      --version  Show version number                        
+  -h, --help     Show help                                  
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin vnc}
+\label{listings: lxce-admin vnc}
+\end{listing}
+%%% END OF COMMANDS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%% WEB-ADMIN %%%
+\newpage
 \subsection{Web-admin}
+The last tool implemented consist of a web application builded with React (framework of javascript) along with a minimal server providing a REST API in each host with "lxce" installed.
+
+It is basically a web front-end for our framework that enables to view all our host and containers in a detailed view in real time.
+
+It has only been implemented the view of the containers, but the idea of the web application is to be able to manage of all the "lxce" commands throught the API provided and offer a web alternative for the "lxce-admin" command line tool.
+
+The main entry point of the API is the following:
+\begin{minted}[bgcolor=background]{bash}
+http --json GET localhost:5000/containers
+\end{minted}
+\begin{minted}[bgcolor=background]{text}
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Connection: keep-alive
+Content-Length: 824
+Content-Type: application/json; charset=utf-8
+Date: Mon, 14 Jun 2021 18:12:46 GMT
+ETag: W/"338-Zebo3shS16lkGZNcHRE+1oMR2Oc"
+Keep-Alive: timeout=5
+X-Powered-By: Express
+\end{minted}
+\begin{minted}[bgcolor=background]{json}
+{
+    "containers": [
+        {
+            "alias": "",
+            "base": "ubuntu:20.04",
+            "cpu": "23.54 (s)",
+            "domain": "default",
+            "ipv4": "10.10.1.201",
+            "ipv6": "fd42:7c8c:7fab:4125:216:3eff:fe34:89d4",
+            "name": "voiceless-blue",
+            "ports": "22:10000-3000:10001-",
+            "ram": "110.44 MB",
+            "status": "Running",
+            "user": "ubuntu"
+        },
+    ],
+    "hostname": "oscar-vm",
+    "ip": "localhost",
+    "status": "running"
+}
+\end{minted}
+
+provided by this simple express server:
+\begin{minted}[bgcolor=background]{typescript}
+const express = require("express")
+const child = require("child_process")
+const cors = require("cors")
+
+const app = express()
+const PORT = process.argv[2]
+
+app.use(cors())
+
+app.get("/containers", (req, res) => {
+    const response = child.execSync("lxce list -f json").toString()
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(response)
+})
+
+app.listen(PORT, () => {
+    console.log(`[*] Server listening on port ${PORT}`)
+})
+
+\end{minted}
+
+
+\TODO{put express snipped}
+
+
+\TODO{bibliography for React framework}
