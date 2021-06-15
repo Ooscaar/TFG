@@ -908,7 +908,7 @@ Flags
 \subsection{Web-admin}
 The last tool implemented consist of a web application builded with React (framework of javascript) along with a minimal server providing a REST API in each host with "lxce" installed.
 
-It is basically a web front-end for our framework that enables to view all our host and containers in a detailed view in real time.
+It is basically a web front-end for our framework that enables to view all our hosts and containers in a detailed view in real time.
 
 It has only been implemented the view of the containers, but the idea of the web application is to be able to manage of all the "lxce" commands throught the API provided and offer a web alternative for the "lxce-admin" command line tool.
 
@@ -929,6 +929,9 @@ X-Powered-By: Express
 \end{minted}
 \begin{minted}[bgcolor=background]{json}
 {
+    "hostname": "oscar-vm",
+    "ip": "localhost",
+    "status": "running",
     "containers": [
         {
             "alias": "",
@@ -944,14 +947,11 @@ X-Powered-By: Express
             "user": "ubuntu"
         },
     ],
-    "hostname": "oscar-vm",
-    "ip": "localhost",
-    "status": "running"
 }
 \end{minted}
 
 provided by this simple express server:
-\begin{minted}[bgcolor=background]{typescript}
+\begin{minted}[bgcolor=background]{javascript}
 const express = require("express")
 const child = require("child_process")
 const cors = require("cors")
@@ -973,9 +973,5 @@ app.listen(PORT, () => {
 })
 
 \end{minted}
-
-
-\TODO{put express snipped}
-
 
 \TODO{bibliography for React framework}
