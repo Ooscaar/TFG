@@ -1,0 +1,34 @@
+/etc/lxce
+|--- container.conf.d
+|--- container_default.conf
+|--- lxce.conf
+|--- remmina
+'--- ssh
+/etc/lxce
+|--- container.conf.d
+|   |--- default
+|   |   '--- voiceless-blue
+|   '--- derecho
+|       '--- relieved-beige
+|--- container_default.conf
+|--- lxce.conf
+|--- remmina
+|   |--- default
+|   |   '--- oscar-vm.default.voiceless-blue.remmina
+|   '--- derecho
+|       '--- oscar-vm.derecho.relieved-beige.remmina
+'--- ssh
+    |--- default
+    |   '--- voiceless-blue.conf
+    '--- derecho
+        '--- relieved-beige.conf
+oscar-vm :: ~ » tree /datasdd
+/datasdd
+'--- lxce
+    '--- test
+        |--- coloured-purple
+        |--- excited-amethyst
+        |--- managing-harlequin
+        |--- shared
+        '--- well-emerald
+

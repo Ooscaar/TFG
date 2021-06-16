@@ -100,10 +100,11 @@ root@oscar-vm:~# cat /etc/lxce/container_default.conf
 }
 \end{minted}
 
+
 %%% CREATE SOME CONTAINERS %%%
 \textbf{Create containers}
 Then we can create 3 containes with different alias in the domain test with:
-\begin{minted}[bgcolor=background]{text}
+\begin{minted}[bgcolor=background]{console}
 root@oscar-vm:~# lxce launch -r 3 -d test -a alice bob peter 
 [*] --------------------------------------------------------------
 [*] Checking ...
@@ -152,11 +153,22 @@ Where we can see the containers created, along with their properties, with:
 \caption[Prototype setup]{\footnotesize{lxce list.}}
 \end{figure}
 
+with following structure in the shared location data folder:
+\begin{minted}[bgcolor=background]{text}
+/datasdd                            # Shared folder
+'--- lxce
+    '--- test                       # Domain folder
+        |--- coloured-purple
+        |--- excited-amethyst
+        |--- managing-harlequin
+        '--- shared                 # Shared domain location
+\end{minted}
+
 %%% CHANGE CONTAINER BASES %%%
 \textbf{Change container base}
-We have set up all the containers to be run with ubuntu:20.04 base, but if we we would like to change one container (peter for example) to use ubuntu:18.04 instead we could do it by:
-\begin{minted}[bgcolor=background, breaklines]{text}
-root@oscar-vm:~/m/tfg-lxce# lxce rebase -d test -a peter -b ubuntu:18.04
+We have set up all the containers to be run with an ubuntu:20.04 base, but if we we would like to change one container (peter for example) to use ubuntu:18.04 instead we could do it by:
+\begin{minted}[bgcolor=background,breaklines]{console}
+[root@oscar-vm:~/m/tfg-lxce]# lxce rebase -d test -a peter -b ubuntu:18.04
 ? Do you want to rebase coloured-purple container within test with ubuntu:18.04? Yes
 [*] Rebasing coloured-purple
 [**] Removing coloured-purple
@@ -185,6 +197,32 @@ root@oscar-vm:~/m/tfg-lxce# lxce list -c nadb
 +--------------------+-------+--------+--------------+
 | managing-harlequin | alice |  test  | ubuntu:20.04 |
 +--------------------+-------+--------+--------------+
+\end{minted}
+
+%%% DELETE SOME CONTAINERS %%%
+\textbf{Delete containers}
+Now if we want to delete a specific container, it's configuration and shared folder:
+
+\begin{minted}[bgcolor=background, breaklines]{console}
+root@oscar-vm:~# lxce delete -d test -a alice
+[*] Init: ok!
+[*] Permission checked
+? Do you want to delete managing-harlequin? Yes
+[**] Removing managing-harlequin
+\end{minted}
+
+%%% UNINSTALL COMMAND %%%
+\textbf{Uninstall command}
+Finally, if we want to uninstall the command (i.e: remove all containers, configurations files and shared locations folders) we simply:
+\begin{minted}[bgcolor=background, breaklines]{console}
+root@oscar-vm:~# lxce uninstall
+[*] Init: ok!
+[*] Permission checked
+? Do you want to uninstall the lxce command and all it's configurations? Yes
+[*] Deleting and stoping current containers
+[**] Removing coloured-purple
+[**] Removing excited-amethyst
+[*] Delete /etc/lxce/
 \end{minted}
 
 \subsection{lxce-admin}

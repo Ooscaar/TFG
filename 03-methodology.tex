@@ -24,8 +24,8 @@ It is basically a command line tool coded in Typescript built on top of the 'lxc
 The problem with the 'lxc' tool is that in order to have a properly set up container we would have to do the following steps, for every container:
 \begin{itemize}
 	\item{Create the container with linux image specified}
-		\begin{minted}[bgcolor=background]{text}
-host# lxc launch ubuntu:20.04 container
+		\begin{minted}[bgcolor=background, style=tango]{console}
+[host]# lxc launch ubuntu:20.04 container
 		\end{minted}
 	\item{Configure password}
 		\begin{minted}[breaklines,bgcolor=background]{text}
