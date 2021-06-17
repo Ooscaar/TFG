@@ -731,6 +731,19 @@ Because with all the configurations files in a centralized location we have:
 
 The syncronization is done using a sync tool (rsync) that enable us to have syncronized folders between different hosts.
 
+\subsubsection{Configuration files}
+The files that must be syncronized are:
+\begin{itemize}
+	\item{SSH: corresponding to \textbf{/etc/lxce/ssh/} folder}
+	\item{VNC: corresponding to \textbf{/etc/lxce/remmina/} folder}
+\end{itemize}
+in order to be able to use the command ssh correctly and have the automatic vnc configurations for the remmina VNC program (the command will also configure the passwords to be used along remmina).
+
+For the SSH configuration files we will save the files in the following structure:
+\begin{minted}[bgcolor=background]{text}
+\end{minted}
+
+along with 
 
 \subsubsection{Commands}
 Taking into account the previous ideas we have develop the following set of commands:
