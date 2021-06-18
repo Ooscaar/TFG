@@ -1,0 +1,73 @@
+%%%%%%%%%%%%%%%
+That results in the following:
+\begin{minted}[bgcolor=background]{text}
+/etc/lxce 
+|--- container.conf.d 			
+|--- container_default.conf 		
+|--- lxce.conf 			
+|--- remmina 		
+'--- ssh 	
+\end{minted}
+with the configurations files:
+\begin{minted}[bgcolor=background]{text}
+root@oscar-vm:~# cat /etc/lxce/lxce.conf
+{
+  "hypervisor": {
+    "SSH_hostname": "oscar-vm",
+    "SSH_suffix": "gold",
+    "VNC_server": "localhost",
+    "VNC_port": 5901
+  },
+  "seed": "58afb0f0250a8eb4",
+  "domains": [
+    {
+      "id": 0,
+      "name": "default"
+    }
+  ],
+  "locations": [
+    "/datasdd"
+  ]
+}
+root@oscar-vm:~# cat /etc/lxce/container_default.conf
+{
+  "name": "",
+  "alias": "",
+  "user": "",
+  "id_domain": 0,
+  "id_container": 0,
+  "domain": "default",
+  "base": "ubuntu:20.04",
+  "userData": "/datasdd",
+  "proxies": [
+    {
+      "name": "ssh",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 22
+    },
+    {
+      "name": "test",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 3000
+    }
+  ],
+  "nginx": {
+    "novnc": 7000,
+    "www": 80
+  }
+}
+\end{minted}
+
+%%%%%%%%%%%%%%%
+with following structure in the shared location data folder:
+\begin{minted}[bgcolor=background]{text}
+/datasdd                            # Shared folder
+'--- lxce
+    '--- test                       # Domain folder
+        |--- coloured-purple
+        |--- excited-amethyst
+        |--- managing-harlequin
+        '--- shared                 # Shared domain location
+\end{minted}

@@ -4,7 +4,6 @@
 \clearpage\section{Implementation and results}
 
 In this chapter we will explain the different use cases that our framework provides along with the programs captures of the tools explained in chapter 3.
-\TODO{provide the cite etc para el chapter}
 
 We will explain one workflow for each tool.
 
@@ -25,7 +24,7 @@ In specific we will:
 \textbf{Initialize the command}
 The first thing we have to do is initialize the command in order to generate the default configurations files and select different parameters.
 
-\begin{minted}[bgcolor=background]{text}
+\begin{minted}[bgcolor=background]{console}
 root@oscar-vm: # lxce init
 ? lxce.conf: Select hypervisor hostname: localhost
 ? lxce.conf: Select ssh suffix: oscar-vm
@@ -39,73 +38,12 @@ root@oscar-vm: # lxce init
 root@oscar-vm: #
 \end{minted}
 
-That results in the following:
-\begin{minted}[bgcolor=background]{text}
-/etc/lxce 
-|--- container.conf.d 			
-|--- container_default.conf 		
-|--- lxce.conf 			
-|--- remmina 		
-'--- ssh 	
-\end{minted}
-with the configurations files:
-\begin{minted}[bgcolor=background]{text}
-root@oscar-vm:~# cat /etc/lxce/lxce.conf
-{
-  "hypervisor": {
-    "SSH_hostname": "oscar-vm",
-    "SSH_suffix": "gold",
-    "VNC_server": "localhost",
-    "VNC_port": 5901
-  },
-  "seed": "58afb0f0250a8eb4",
-  "domains": [
-    {
-      "id": 0,
-      "name": "default"
-    }
-  ],
-  "locations": [
-    "/datasdd"
-  ]
-}
-root@oscar-vm:~# cat /etc/lxce/container_default.conf
-{
-  "name": "",
-  "alias": "",
-  "user": "",
-  "id_domain": 0,
-  "id_container": 0,
-  "domain": "default",
-  "base": "ubuntu:20.04",
-  "userData": "/datasdd",
-  "proxies": [
-    {
-      "name": "ssh",
-      "type": "tcp",
-      "listen": "0.0.0.0",
-      "port": 22
-    },
-    {
-      "name": "test",
-      "type": "tcp",
-      "listen": "0.0.0.0",
-      "port": 3000
-    }
-  ],
-  "nginx": {
-    "novnc": 7000,
-    "www": 80
-  }
-}
-\end{minted}
-
-
 %%% CREATE SOME CONTAINERS %%%
+\newpage
 \textbf{Create containers}
 Then we can create 3 containers with different alias in the domain test with:
 \begin{minted}[bgcolor=background]{console}
-root@oscar-vm:~# lxce launch -r 3 -d test -a alice bob peter 
+root@oscar-vm: # lxce launch -r 3 -d test -a alice bob peter 
 [*] --------------------------------------------------------------
 [*] Checking ...
 [*] Initialized
@@ -134,12 +72,8 @@ root@oscar-vm:~# lxce launch -r 3 -d test -a alice bob peter
 [**] dns resolution: managing-harlequin.lxd -> 10.10.1.171
 [] Launching container with managing-harlequin
 [*] Launching container with excited-amethyst
-...
-...
 [] Launching container with excited-amethyst
 [*] Launching container with coloured-purple
-....
-....
 [] Launching container with coloured-purple
 [*] --------------------------------------------------------------
 [*] Success!!
@@ -153,22 +87,12 @@ Where we can see the containers created, along with their properties, with:
 \caption[Prototype setup]{\footnotesize{lxce list.}}
 \end{figure}
 
-with following structure in the shared location data folder:
-\begin{minted}[bgcolor=background]{text}
-/datasdd                            # Shared folder
-'--- lxce
-    '--- test                       # Domain folder
-        |--- coloured-purple
-        |--- excited-amethyst
-        |--- managing-harlequin
-        '--- shared                 # Shared domain location
-\end{minted}
 
 %%% CHANGE CONTAINER BASES %%%
 \textbf{Change container base}
 We have set up all the containers to be run with an ubuntu:20.04 base, but if we we would like to change one container (peter for example) to use ubuntu:18.04 instead we could do it by:
 \begin{minted}[bgcolor=background,breaklines]{console}
-[root@oscar-vm:~/m/tfg-lxce]# lxce rebase -d test -a peter -b ubuntu:18.04
+root@oscar-vm: # lxce rebase -d test -a peter -b ubuntu:18.04
 ? Do you want to rebase coloured-purple container within test with ubuntu:18.04? Yes
 [*] Rebasing coloured-purple
 [**] Removing coloured-purple
@@ -186,8 +110,8 @@ We have set up all the containers to be run with an ubuntu:20.04 base, but if we
 where all the properties of the container will remain the same.
 
 So then we would have the following:
-\begin{minted}[bgcolor=background]{text}
-root@oscar-vm:~/m/tfg-lxce# lxce list -c nadb
+\begin{minted}[bgcolor=background]{console}
+root@oscar-vm: # lxce list -c nadb
 +--------------------+-------+--------+--------------+
 |        NAME        | ALIAS | DOMAIN |     BASE     |
 +--------------------+-------+--------+--------------+
@@ -204,7 +128,7 @@ root@oscar-vm:~/m/tfg-lxce# lxce list -c nadb
 Now if we want to delete a specific container, it's configuration and shared folder:
 
 \begin{minted}[bgcolor=background, breaklines]{console}
-root@oscar-vm:~# lxce delete -d test -a alice
+root@oscar-vm: # lxce delete -d test -a alice
 [*] Init: ok!
 [*] Permission checked
 ? Do you want to delete managing-harlequin? Yes
@@ -215,7 +139,7 @@ root@oscar-vm:~# lxce delete -d test -a alice
 \textbf{Uninstall command}
 Finally, if we want to uninstall the command (i.e: remove all containers, configurations files and shared locations folders) we simply:
 \begin{minted}[bgcolor=background, breaklines]{console}
-root@oscar-vm:~# lxce uninstall
+root@oscar-vm: # lxce uninstall
 [*] Init: ok!
 [*] Permission checked
 ? Do you want to uninstall the lxce command and all it's configurations? Yes
@@ -242,7 +166,7 @@ But before starting typing commands in the admin host, we must set up the follow
 \textbf{Add host}
 The first thing that we must do is to add a remote host:
 \begin{minted}[bgcolor=background, breaklines]{console}
-[oscar-vm]# lxce-admin config add
+root@oscar-vm: # lxce-admin config add
 ? Select host (ssh config): oscar-vm
 ? Select hostname: localhost
 ? Select ssh port: 22
@@ -253,7 +177,7 @@ The first thing that we must do is to add a remote host:
 \end{minted}
 
 \begin{minted}[bgcolor=background, breaklines]{console}
-[oscar-vm]# lxce-admin config list                                                                 
+root@oscar-vm: # lxce-admin config list
 +----------+---------+------------+
 |   HOST   | DOMAINS | CONTAINERS |
 +----------+---------+------------+
@@ -261,12 +185,13 @@ The first thing that we must do is to add a remote host:
 +----------+---------+------------+
 \end{minted}
 
+\newpage
 \textbf{Test SSH}
 Once set up the host, we have already access to the ssh configuration file of each container.
 
-We can test it by ssh [host.domain.containerName]:
+We can test it by ssh [host.domain.containerName/containerAlias]:
 \begin{minted}[bgcolor=background, breaklines]{console}
-[oscar-vm]# ssh ubuntu@oscar-vm -p 11000           
+root@oscar-vm: # ssh oscar-vm.google.itchy-bronze
 ubuntu@192.168.122.118's password:
 
 The programs included with the Ubuntu system are free software;
@@ -287,32 +212,48 @@ Another service that is available is VNC access to every container.
 
 For connecting to the container through VNC we can use two methods:
 \begin{itemize}
-	\item{\textbf{lxce-admin vnc}}
+	\item{\textbf{lxce-admin vnc}: will open a normal VNC client}
 \begin{minted}[bgcolor=background, breaklines]{console}
-root@oscar-vm:~# lxce-admin vnc --host oscar-vm -d google -n real-black --scale 1
+root@oscar-vm: # lxce-admin vnc --host oscar-vm -d google -n real-black --scale 1
 \end{minted}
-	\item{\textbf{lxce-admin remmina}: will open remmina (VNC client). The advantage is that remmina is able to use system passwords saved in the computer chain generated by the command.}
+	\item{\textbf{lxce-admin remmina}: will open remmina (VNC client). The advantage is that remmina is able to use system passwords saved in the computer chain generated by the command, so we won't have to type the ssh password not the vnc password}
 \begin{minted}[bgcolor=background, breaklines]{console}
-root@oscar-vm:~# lxce-admin remmina --host oscar-vm -d google -n real-black
+root@oscar-vm: # lxce-admin remmina --host oscar-vm -d google -n real-black
 \end{minted}
-where we can see the password stored in the system chain:
-\TODO{put password figure}
 \end{itemize}
 
 \TODO{put commands descriptions each}
 
 \subsection{web-admin}
-
-Once everything is set up, we can start working in the admin host. We will basically:
+For configuring the web-admin web app we should:
 \begin{itemize}
-	\item{Add the host and automatic rsync the corresponding folders}
-	\item{Test the SSH configuration files}
-	\item{Launch a VNC session with Remmina}
-	\item{Compute password for remote access to containers}
+	\item{Start the web application in an admin host}
+	\item{Start the express server in each of the hosts with lxce installed in order to serve the corresponding API}
 \end{itemize}
 
+Once everything is set up, the main page of the web application is the following:
+\begin{figure}[H]
+\label{fig:web-admin}
+\centering
+\frame{\includegraphics[width=\textwidth]{img/04/web-admin-first.pdf}}
+\caption[Prototype setup]{\footnotesize{lxce list.}}
+\end{figure}
 
+Where we can add a host:
+\begin{figure}[H]
+\label{fig:lxce list}
+\centering
+\frame{\includegraphics[width=\textwidth]{img/04/web-admin-second.pdf}}
+\caption[Prototype setup]{\footnotesize{lxce list.}}
+\end{figure}
 
-
+\newpage
+And view the container for each host along with the container properties:
+\begin{figure}[H]
+\label{fig:lxce list}
+\centering
+\frame{\includegraphics[width=\textwidth]{img/04/web-admin-third.pdf}}
+\caption[Prototype setup]{\footnotesize{lxce list.}}
+\end{figure}
 
 
