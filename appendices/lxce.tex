@@ -1,0 +1,437 @@
+%%%%%%%%%%%%%%%%%%%%%
+%% APPENDIX-LXCE %%%%
+%%%%%%%%%%%%%%%%%%%%%
+\section{lxce}
+For the commands that are available for our command, we have the following structure:
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce [command] <options> <flags>
+
+Commands:
+  lxce alias       Manage containers aliases
+  lxce completion  Output completions scripts
+  lxce delete      Delete containers and configurations/folders related
+  lxce init        Initialize lxce command
+  lxce launch      Launch containers
+  lxce list        List containers properties
+  lxce pass        Compute password from containers
+  lxce proxy       Delete and restart proxies 
+  lxce rebase      Relaunch container with new base specified
+  lxce show        Show containers configurations files
+  lxce start       Start containers
+  lxce stop        Stop containers
+  lxce uninstall   Remove all configurations from the lxce command
+
+Flags
+      --version  Show version number        
+  -h, --help     Show help                 
+  -v, --verbose
+\end{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LIST OF COMMANDS %%%
+\newpage
+\textbf{lxce alias}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce alias [command] <options> <flags>
+
+Commands:
+  lxce alias set    set container alias
+  lxce alias unset  unset container alias
+  lxce alias check  check container alias
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce alias}
+\label{listings: lxce alias}
+\end{listing}
+
+\textbf{lxce alias set}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce alias set [options] <flags>
+
+Options
+  -d, --domain  container domain                             
+  -n, --name    container name                               
+  -a, --alias   new container alias                          
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                            
+  -v, --verbose
+
+Examples:
+  lxce alias set -d google                Set alias alice to container 
+  -n front -a alice                       front within google domain
+\end{minted}
+\caption{lxce alias set}
+\label{listings: lxce alias set}
+\end{listing}
+\TODO{Change all descriptions to match [] or <>}
+
+\newpage
+\textbf{lxce alias unset}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce alias unset [options] <flags>
+
+Options
+  -d, --domain  container domain                             
+  -n, --name    container name                               
+  -a, --alias   new container alias                          
+
+Flags
+      --version  Show version number                        
+  -h, --help     Show help                                  
+  -v, --verbose
+
+Examples:
+  lxce alias unset -d google -n front  Unset alias to container front 
+                                       within google domain
+  lxce alias unset -d google -a alice  Unset alias to container with 
+                                       alice alias within google 
+				       domain
+\end{minted}
+\caption{lxce alias unset}
+\label{listings: lxce alias unset}
+\end{listing}
+
+\textbf{lxce alias check}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce alias check [options] <flags>
+
+Options
+  -d, --domain  container domain                             
+  -a, --alias   new container alias                          
+  -f, --format  output format            ["plain", "json", "csv"]
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+
+Examples:
+  lxce alias check -d google -a alice  check alice alias existence 
+                                       within google domain
+\end{minted}
+\caption{lxce alias check}
+\label{listings: lxce alias check}
+\end{listing}
+
+
+\textbf{lxce delete}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce delete <options> <flags>
+
+Options
+  -g, --global  apply to all containers                         
+  -d, --domain  domain name for a group of containers            
+  -n, --name    container name                                   
+  -a, --alias   container alias                                 
+  -y, --yes     yes to questions                                
+
+Flags
+      --version  Show version number                            
+  -h, --help     Show help                                      
+  -v, --verbose
+
+Examples:
+  lxce delete --global                   Deletes all containers and
+                                         configurations related
+  lxce delete -d google                  Deletes all containers within 
+                                         google domain
+  lxce delete -d google -n still-yellow  Deletes container referenced 
+                                         by name
+  lxce delete -d google -a alice         Deletes container referenced
+                                         by alias
+\end{minted}
+\caption{lxce delete}
+\label{listings: lxce delete}
+\end{listing}
+
+\textbf{lxce init}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce init <flags>
+
+Flags
+      --version  Show version number                            
+  -h, --help     Show help                                      
+  -v, --verbose
+\end{minted}
+\caption{lxce init}
+\label{listings: lxce init}
+\end{listing}
+
+\newpage
+\textbf{lxce launch}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce launch <options> <flags>
+
+Options
+  -d, --domain   domain for the container/containers         
+  -r, --range    range of container (ex: -r 5)             
+  -n, --names    names/name of the containers/container                  
+  -a, --aliases  aliases/alias of the containers/container               
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+
+Examples:
+  lxce launch -d google                     Launch one container within 
+                                            google with a random name
+  lxce launch -d google -r 3                Launch three containers 
+                                            within google with 
+					    random names
+  lxce launch -d google -r 3 -n back front  Launch three containers 
+  base                                      within google with 
+                                            specified names
+  lxce launch -d google -r 3 -n back front  Launch three containers with 
+  base -a alice bob eve                     name and alias
+                                            specified
+  lxce launch -d google -r 3 -a alice bob   Launch three containers 
+  eve                                       with random names and 
+                                            alias specified
+\end{minted}
+\caption{lxce launch}
+\label{listings: lxce launch}
+\end{listing}
+
+\newpage
+\textbf{lxce list}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce <options> <flags>
+
+Format options
+==============
+-n: "name"
+-a: "alias"
+-u: "user"
+-b: "base"
+-r: "ram (MB)"
+-p: "ports"
+-4: "ipv4"
+-6: "ipv6"
+-s: "status"
+-d: "domain"
+-c: "cpu usage (s)"
+
+Options
+  -c, --columns  Values to show                                         
+  -f, --format   Output format                                          
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+
+Examples:
+  lxce list -c naubr
+  lxce list -f json
+\end{minted}
+\caption{lxce list}
+\label{listings: lxce list}
+\end{listing}
+
+\newpage
+\textbf{lxce pass}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce pass <options> <flags>
+
+Options
+  -g, --global  Apply to all containers                               
+  -d, --domain  Domain name for a group of containers                 
+  -n, --name    Container name                                        
+  -a, --alias   Container alias                                       
+  -p, --plain   plain output                                          
+
+Flags
+      --version  Show version number                                  
+  -h, --help     Show help                                            
+  -v, --verbose
+
+Examples:
+  lxce pass --global            Compute all container passwords
+  lxce pass --domain google     Compute all domain passwords
+  lxce pass -d google -n front  Compute container name password
+  lxce pass -d google -a alice  Compute container alias password
+
+\end{minted}
+\caption{lxce pass}
+\label{listings: lxce pass}
+\end{listing}
+
+\newpage
+\textbf{lxce proxy}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce proxy <options> <flags>
+
+Options
+  -g, --global  Apply to all containers                                
+  -d, --domain  Domain name for a group of containers                  
+  -n, --name    Container name                                         
+  -a, --alias   Container alias                                        
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+
+Examples:
+  lxce proxy --global            Restart all containers proxies based 
+                                 on their configuration files
+  lxce proxy -d google           Restart all domain containers proxies 
+                                 based on their configuration files
+  lxce proxy -d google -n front  Restart container proxies
+  lxce proxy -d google -a alice  Restart container proxies
+\end{minted}
+\caption{lxce proxy}
+\label{listings: lxce proxy}
+\end{listing}
+
+\newpage
+\textbf{lxce rebase}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce rebase <options> <flags>
+
+Options
+  -g, --global  Applied to all containers                              
+  -d, --domain  Domain name for a group of containers                  
+  -n, --name    Container name                                         
+  -a, --alias   Container alias                                        
+  -b, --base    Container base                               
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+
+Examples:
+  lxce rebase --global                   Applies new base to existing 
+                                         containers and future ones
+  lxce rebase -d google                  Applies new base to all
+                                         containers withing 
+                                         google domain
+  lxce rebase -d google -n still-yellow  Applies new base to container 
+  lxce rebase -d google -a alice         Applies new base to container 
+\end{minted}
+\caption{lxce rebase}
+\label{listings: lxce rebase}
+\end{listing}
+
+\newpage
+\textbf{lxce show}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce show <options> <flags>
+
+Options
+  -g, --global  Apply to all containers                                
+  -d, --domain  Domain name for a group of containers                  
+  -n, --name    Container name                                         
+  -a, --alias   Container alias                                        
+  -e, --extra   Show extra information                
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+
+Examples:
+  lxce show --global                   Show all containers configurations
+  lxce show -d google                  Show all containers configurations 
+                                       within domain
+  lxce show -d google -n still-yellow  Show container configurations 
+                                       defined by name
+  lxce show -d google -a alice         Stop container configuration 
+                                       defined by alias
+\end{minted}
+\caption{lxce show}
+\label{listings: lxce show}
+\end{listing}
+
+\newpage
+\textbf{lxce start}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce start <options> <flags>
+
+Options
+  -g, --global  Apply to all containers                                
+  -d, --domain  Domain name for a group of containers                  
+  -n, --name    Container name                                         
+  -a, --alias   Container alias                                        
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+
+Examples:
+  lxce start --global                   Start all containers
+  lxce start -d google                  Start all container within domain
+  lxce start -d google -n still-yellow  Start container defined by name
+  lxce start -d google -a alice         Start container defined by alias
+\end{minted}
+\caption{lxce start}
+\label{listings: lxce start}
+\end{listing}
+
+\newpage
+\textbf{lxce stop}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce stop <options> <flags>
+
+Options
+  -g, --global  Apply to all containers                                
+  -d, --domain  Domain name for a group of containers                  
+  -n, --name    Container name                                         
+  -a, --alias   Container alias                                        
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+
+Examples:
+  lxce stop --global                   Stop all containers
+  lxce stop -d google                  Stop all container within domain
+  lxce stop -d google -n still-yellow  Stop container defined by name
+  lxce stop -d google -a alice         Stop container defined by alias
+\end{minted}
+\caption{lxce stop}
+\label{listings: lxce stop}
+\end{listing}
+
+\textbf{lxce uninstall}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+lxce uninstall <options> <flags>
+
+Options
+  -y, --yes                                                            
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce uninstall}
+\label{listings: lxce uninstall}
+\end{listing}
+%% END OF COMMANDS %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%

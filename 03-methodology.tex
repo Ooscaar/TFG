@@ -21,29 +21,29 @@ It is basically a command line tool coded in Typescript built on top of the 'lxc
 [TODO: site chapter]
 \TODO{Site chapter}
 
-The problem with the 'lxc' tool is that in order to have a properly set up container we would have to do the following steps, for every container:
+We could already work only with the "lxc" tool but the problem is that in order to have a properly set up container we would have to do the following steps, for every container:
 \begin{itemize}
 	\item{Create the container with linux image specified}
 		\begin{minted}[bgcolor=background, style=tango]{console}
 [host]# lxc launch ubuntu:20.04 container
 		\end{minted}
 	\item{Configure password}
-		\begin{minted}[breaklines,bgcolor=background]{text}
-host# lxc exec ${name} -- bash -c "echo ${user}:${password} | chpasswd"
+		\begin{minted}[breaklines,bgcolor=background,style=tango]{console}
+[host]# lxc exec ${name} -- bash -c "echo ${user}:${password} | chpasswd"
 		\end{minted}
 	\item{Set up shared folders}
-		\begin{minted}[breaklines,bgcolor=background]{text}
-host# lxc config device add containers myfolder disk source=/www/data path=/data
+		\begin{minted}[breaklines,bgcolor=background,style=tango]{console}
+[host]# lxc config device add containers myfolder disk source=/www/data path=/data
 		\end{minted}
 	\item{Set up proxies, selecting each time a non used host port}
-		\begin{minted}[breaklines,bgcolor=background]{text}
-host# lxc config device add myproxy proxy listen=tcp:0.0.0.0:4000 connect=tcp:10.1.2.1:80
+		\begin{minted}[breaklines,bgcolor=background,style=tango]{console}
+[host]# lxc config device add myproxy proxy listen=tcp:0.0.0.0:4000 connect=tcp:10.1.2.1:80
 		\end{minted}
 \end{itemize}
 
 Then, if we would like to access the containers by ssh or vnc we would have to create also the corresponding configuration files.
 
-Everything is managed individually, which is good for a basic set up, but for situations where we are working with +50 containers is unmanagible??. 
+Everything is managed individually, which is good for a basic set up, but for situations where we are working with +50 containers is unmanageable. 
 
 So the idea of this command is to resolve such limitations with a command which could:
 \begin{itemize}
@@ -54,916 +54,120 @@ So the idea of this command is to resolve such limitations with a command which 
 	\item{Generate SSH and VNC configuration files to be distributed}
 \end{itemize}
 
-Once defined all the specifications for the command we will explain how are the configuration files organized and the list of subcommands implemented.
+The architecture is the following:
+\begin{figure}[H]
+	\label{fig:LXCE architecture}
+	\centering
+	\includegraphics{img/03/lxce-diagram.pdf}
+	\caption[LXCE block diagram]{\footnotesize{lxce architecture}}
+\end{figure}
+
+Once defined all the specifications for the command, we will explain how are the configuration files organized and the list of subcommands implemented.
+
 
 \subsubsection{Configuration files}
-The first thing we have to define are the configurations files and how are they are going to be organized.
-\TODO{explain their usage in a general overview}
+Our command uses a series of configuration files for defining a list of properties (general and specific for each container). These configuration files are used by "lxce" and are updated acordingly.
 
-Firt of all, we will have 5 different types of configuration files:
+The list of configuration files is the following:
 \begin{itemize}
-	\item{\textbf{container-default.conf}: default configuration file}
-	\item{\textbf{lxce.conf}: general command configuration}
-	\item{individual container configuration files}
-	\item{\textbf{remmina} (vnc service) configuration files}
-	\item{\textbf{ssh} configurations files}
+	\item{\textbf{container-default.conf}: default configuration file. Defines the default container configuration template}
+	\item{\textbf{lxce.conf}: general command configuration. Defines properties such as the hostname of host}
+	\item{\textbf{individual container configuration files}: they follow the container based template and are updated based on their properties}
+	\item{\textbf{remmina}: defines a configuration file specific for a vnc client (remmina) }
+	\item{\textbf{ssh}: ssh-config specific files for each container }
 \end{itemize}
 
-So a basic set up with two domains (default and derecho) and one container created in each of the domains would look like:
+* see AnexII for a complete view of the configuration files
+\TODO{add the ANNEX cite}
+\TODO{add the Remmina cite}
 
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-/etc/lxce 
-|--- container.conf.d 			
-|   |--- default 			
-|   |   '--- voiceless-blue
-|   '--- derecho 			
-|       '--- relieved-beige
-|--- container_default.conf 		
-|--- lxce.conf 			
-|--- remmina 		
-|   |--- default 
-|   |   '--- oscar-vm.default.voiceless-blue.remmina
-|   '--- derecho 
-|       '--- oscar-vm.derecho.relieved-beige.remmina
-'--- ssh 	
-    |--- default 
-    |   '--- voiceless-blue.conf
-    '--- derecho
-        '--- relieved-beige.conf
-\end{minted}
-\caption{lxce directory structure}
-\label{listings: lxce directory structure /etc/lxce}
-\end{listing}
-
-In this way we are able to manage the container configurations from our command line and update/delete files based on the state of the command.
-
-Where the configurations files content is the following:
-\begin{itemize}
-%%%%%%%%%%
-%% ITEM %%
-%%%%%%%%%%
-\newpage
-\item{\textbf{container-default.conf}
-
-This file acts as a template for every container to be created.
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{json}
-{
-  "name": "",                           
-  "alias": "",                          
-  "user": "",
-  "id_domain": 0,
-  "id_container": 0,
-
-  "domain": "default",                 
-  "base": "ubuntu:20.04",             
-  "userData": "/datasdd",            
-
-  "proxies": [                      
-    {
-      "name": "ssh",
-      "type": "tcp",
-      "listen": "0.0.0.0",
-      "port": 22
-    },
-    {
-      "name": "test",
-      "type": "tcp",
-      "listen": "0.0.0.0",
-      "port": 3000
-    }
-  ],
-}
-\end{minted}
-\caption{/etc/lxce/container-default.conf}
-\label{listings: /etc/lxce/container-default.conf}
-\end{listing}
-\TODO{Think the convention for the name of the figures and the descriptions of the listings}
-}
-%%%%%%%%%%
-%% ITEM %%
-%%%%%%%%%%
-\newpage
-\item{\textbf{lxce.conf}
-
-This file specifies different parameters of the host where the command is installed, such as:
-\begin{itemize}
-	\item{SSH IP}
-	\item{Hostname}
-	\item{Local VNC server configuration}
-	\item{Seed used for generating passwords}
-	\item{List of container domains currently in the host}
-	\item{List of locations available for the shared containers folders location}
-\end{itemize}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{json}
-{
-  "hypervisor": {
-    "SSH_hostname": "localhost",
-    "SSH_suffix": "oscar-vm",
-    "VNC_server": "localhost",
-    "VNC_port": 5901
-  },
-  "seed": "4b5a003f0e1715df",
-  "domains": [
-    {
-      "id": 0,
-      "name": "default"
-    },
-    {
-      "id": 1,
-      "name": "derecho"
-    }
-  ],
-  "locations": [
-    "/datasdd"
-  ]
-}
-\end{minted}
-\caption{lxce.conf}
-\label{listings: /etc/lxce/lxce.conf}
-\TODO{explain all the parameters}
-\end{listing}
-}
-%%%%%%%%%%
-%% ITEM %%
-%%%%%%%%%%
-\newpage
-\item{\textbf{container configuration file}
-
-This files list the configured parameters for each container and the ids that uniquelly identifies it
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{json}
-{
-  "name": "voiceless-blue",
-  "alias": "",
-  "user": "ubuntu",
-  "id_domain": 0,
-  "id_container": 0,
-  "domain": "default",
-  "base": "ubuntu:20.04",
-  "userData": "/datasdd",
-  "proxies": [
-    {
-      "name": "ssh",
-      "type": "tcp",
-      "listen": "0.0.0.0",
-      "port": 22
-    },
-    {
-      "name": "test",
-      "type": "tcp",
-      "listen": "0.0.0.0",
-      "port": 3000
-    }
-  ],
-}
-\end{minted}
-\caption{container configuration file}
-\label{listings: /etc/lxce/container.conf.d/default/voiceless-blue}
-\end{listing}
-}
-%%%%%%%%%%
-%% ITEM %%
-%%%%%%%%%%
-\clearpage
-\item{\textbf{VNC configuration}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-[remmina]
-ssh_tunnel_privatekey=
-name=oscar-vm.default.voiceless-blue          # Container name
-ssh_tunnel_passphrase=
-password=.                                    # For saving VNC password
-...
-server=localhost:5901                         # VNC server
-disablepasswordstoring=0
-ssh_tunnel_username=ubuntu
-disableclipboard=0
-window_maximize=1
-ssh_tunnel_password=.                         # For saving ssh password
-enable-autostart=0
-proxy=
-ssh_tunnel_server=localhost:10000             # Container SSH Port
-ssh_tunnel_auth=0
-group=oscar-vm.upc.edu                        
-...
-protocol=VNC
-username=ubuntu                               # VNC username
-showcursor=0
-colordepth=32
-
-\end{minted}
-\caption{REMMINA configuration file}
-\label{listing: /etc/lxce/remmina/default/oscar-vm.default.voiceless-blue.remmina}
-\end{listing}
-}
-%%%%%%%%%%
-%% ITEM %%
-%%%%%%%%%%
-\item{\textbf{SSH configuration}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Host oscar-vm.default.voiceless-blue
-   Hostname localhost
-   User ubuntu
-   Port 10000
-   TCPKeepAlive yes
-   ServerAliveInterval 300
-\end{minted}
-\caption{ssh configuration file}
-\label{listings: /etc/lxce/ssh/default/voiceless-blue.conf}
-\end{listing}
-}
-\end{itemize}
-
-\newpage
 \subsubsection{Commands}
-\DUDA{Explicar aqui como esta implementado??}
-For the commands that are available for our command, we have the following structure:
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce [command] <options> <flags>
-
-Commands:
-  lxce alias       Manage containers aliases
-  lxce completion  Output completions scripts
-  lxce delete      Delete containers and configurations/folders related
-  lxce init        Initialize lxce command
-  lxce launch      Launch containers
-  lxce list        List containers properties
-  lxce pass        Compute password from containers
-  lxce proxy       Delete and restart proxies 
-  lxce rebase      Relaunch container with new base specified
-  lxce show        Show containers configurations files
-  lxce start       Start containers
-  lxce stop        Stop containers
-  lxce uninstall   Remove all configurations from the lxce command
-
-Flags
-      --version  Show version number        
-  -h, --help     Show help                 
-  -v, --verbose
-\end{minted}
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-%%% LIST OF COMMANDS %%%
-\newpage
-\textbf{lxce alias}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce alias [command] <options> <flags>
-
-Commands:
-  lxce alias set    set container alias
-  lxce alias unset  unset container alias
-  lxce alias check  check container alias
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-\end{minted}
-\caption{lxce alias}
-\label{listings: lxce alias}
-\end{listing}
-
-\textbf{lxce alias set}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce alias set [options] <flags>
-
-Options
-  -d, --domain  container domain                             
-  -n, --name    container name                               
-  -a, --alias   new container alias                          
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                            
-  -v, --verbose
-
-Examples:
-  lxce alias set -d google                Set alias alice to container 
-  -n front -a alice                       front within google domain
-\end{minted}
-\caption{lxce alias set}
-\label{listings: lxce alias set}
-\end{listing}
-\TODO{Change all descriptions to match [] or <>}
-
-\newpage
-\textbf{lxce alias unset}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce alias unset [options] <flags>
-
-Options
-  -d, --domain  container domain                             
-  -n, --name    container name                               
-  -a, --alias   new container alias                          
-
-Flags
-      --version  Show version number                        
-  -h, --help     Show help                                  
-  -v, --verbose
-
-Examples:
-  lxce alias unset -d google -n front  Unset alias to container front 
-                                       within google domain
-  lxce alias unset -d google -a alice  Unset alias to container with 
-                                       alice alias within google 
-				       domain
-\end{minted}
-\caption{lxce alias unset}
-\label{listings: lxce alias unset}
-\end{listing}
-
-\textbf{lxce alias check}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce alias check [options] <flags>
-
-Options
-  -d, --domain  container domain                             
-  -a, --alias   new container alias                          
-  -f, --format  output format            ["plain", "json", "csv"]
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-
-Examples:
-  lxce alias check -d google -a alice  check alice alias existence 
-                                       within google domain
-\end{minted}
-\caption{lxce alias check}
-\label{listings: lxce alias check}
-\end{listing}
-
-
-\textbf{lxce delete}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce delete <options> <flags>
-
-Options
-  -g, --global  apply to all containers                         
-  -d, --domain  domain name for a group of containers            
-  -n, --name    container name                                   
-  -a, --alias   container alias                                 
-  -y, --yes     yes to questions                                
-
-Flags
-      --version  Show version number                            
-  -h, --help     Show help                                      
-  -v, --verbose
-
-Examples:
-  lxce delete --global                   Deletes all containers and
-                                         configurations related
-  lxce delete -d google                  Deletes all containers within 
-                                         google domain
-  lxce delete -d google -n still-yellow  Deletes container referenced 
-                                         by name
-  lxce delete -d google -a alice         Deletes container referenced
-                                         by alias
-\end{minted}
-\caption{lxce delete}
-\label{listings: lxce delete}
-\end{listing}
-
-\textbf{lxce init}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce init <flags>
-
-Flags
-      --version  Show version number                            
-  -h, --help     Show help                                      
-  -v, --verbose
-\end{minted}
-\caption{lxce init}
-\label{listings: lxce init}
-\end{listing}
-
-\newpage
-\textbf{lxce launch}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce launch <options> <flags>
-
-Options
-  -d, --domain   domain for the container/containers         
-  -r, --range    range of container (ex: -r 5)             
-  -n, --names    names/name of the containers/container                  
-  -a, --aliases  aliases/alias of the containers/container               
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-
-Examples:
-  lxce launch -d google                     Launch one container within 
-                                            google with a random name
-  lxce launch -d google -r 3                Launch three containers 
-                                            within google with 
-					    random names
-  lxce launch -d google -r 3 -n back front  Launch three containers 
-  base                                      within google with 
-                                            specified names
-  lxce launch -d google -r 3 -n back front  Launch three containers with 
-  base -a alice bob eve                     name and alias
-                                            specified
-  lxce launch -d google -r 3 -a alice bob   Launch three containers 
-  eve                                       with random names and 
-                                            alias specified
-\end{minted}
-\caption{lxce launch}
-\label{listings: lxce launch}
-\end{listing}
-
-\newpage
-\textbf{lxce list}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce <options> <flags>
-
-Format options
-==============
--n: "name"
--a: "alias"
--u: "user"
--b: "base"
--r: "ram (MB)"
--p: "ports"
--4: "ipv4"
--6: "ipv6"
--s: "status"
--d: "domain"
--c: "cpu usage (s)"
-
-Options
-  -c, --columns  Values to show                                         
-  -f, --format   Output format                                          
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-
-Examples:
-  lxce list -c naubr
-  lxce list -f json
-\end{minted}
-\caption{lxce list}
-\label{listings: lxce list}
-\end{listing}
-
-\newpage
-\textbf{lxce pass}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce pass <options> <flags>
-
-Options
-  -g, --global  Apply to all containers                               
-  -d, --domain  Domain name for a group of containers                 
-  -n, --name    Container name                                        
-  -a, --alias   Container alias                                       
-  -p, --plain   plain output                                          
-
-Flags
-      --version  Show version number                                  
-  -h, --help     Show help                                            
-  -v, --verbose
-
-Examples:
-  lxce pass --global            Compute all container passwords
-  lxce pass --domain google     Compute all domain passwords
-  lxce pass -d google -n front  Compute container name password
-  lxce pass -d google -a alice  Compute container alias password
-
-\end{minted}
-\caption{lxce pass}
-\label{listings: lxce pass}
-\end{listing}
-
-\newpage
-\textbf{lxce proxy}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce proxy <options> <flags>
-
-Options
-  -g, --global  Apply to all containers                                
-  -d, --domain  Domain name for a group of containers                  
-  -n, --name    Container name                                         
-  -a, --alias   Container alias                                        
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-
-Examples:
-  lxce proxy --global            Restart all containers proxies based 
-                                 on their configuration files
-  lxce proxy -d google           Restart all domain containers proxies 
-                                 based on their configuration files
-  lxce proxy -d google -n front  Restart container proxies
-  lxce proxy -d google -a alice  Restart container proxies
-\end{minted}
-\caption{lxce proxy}
-\label{listings: lxce proxy}
-\end{listing}
-
-\newpage
-\textbf{lxce rebase}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce rebase <options> <flags>
-
-Options
-  -g, --global  Applied to all containers                              
-  -d, --domain  Domain name for a group of containers                  
-  -n, --name    Container name                                         
-  -a, --alias   Container alias                                        
-  -b, --base    Container base                               
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-
-Examples:
-  lxce rebase --global                   Applies new base to existing 
-                                         containers and future ones
-  lxce rebase -d google                  Applies new base to all
-                                         containers withing 
-                                         google domain
-  lxce rebase -d google -n still-yellow  Applies new base to container 
-  lxce rebase -d google -a alice         Applies new base to container 
-\end{minted}
-\caption{lxce rebase}
-\label{listings: lxce rebase}
-\end{listing}
-
-\newpage
-\textbf{lxce show}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce show <options> <flags>
-
-Options
-  -g, --global  Apply to all containers                                
-  -d, --domain  Domain name for a group of containers                  
-  -n, --name    Container name                                         
-  -a, --alias   Container alias                                        
-  -e, --extra   Show extra information                
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-
-Examples:
-  lxce show --global                   Show all containers configurations
-  lxce show -d google                  Show all containers configurations 
-                                       within domain
-  lxce show -d google -n still-yellow  Show container configurations 
-                                       defined by name
-  lxce show -d google -a alice         Stop container configuration 
-                                       defined by alias
-\end{minted}
-\caption{lxce show}
-\label{listings: lxce show}
-\end{listing}
-
-\newpage
-\textbf{lxce start}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce start <options> <flags>
-
-Options
-  -g, --global  Apply to all containers                                
-  -d, --domain  Domain name for a group of containers                  
-  -n, --name    Container name                                         
-  -a, --alias   Container alias                                        
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-
-Examples:
-  lxce start --global                   Start all containers
-  lxce start -d google                  Start all container within domain
-  lxce start -d google -n still-yellow  Start container defined by name
-  lxce start -d google -a alice         Start container defined by alias
-\end{minted}
-\caption{lxce start}
-\label{listings: lxce start}
-\end{listing}
-
-\newpage
-\textbf{lxce stop}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce stop <options> <flags>
-
-Options
-  -g, --global  Apply to all containers                                
-  -d, --domain  Domain name for a group of containers                  
-  -n, --name    Container name                                         
-  -a, --alias   Container alias                                        
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-
-Examples:
-  lxce stop --global                   Stop all containers
-  lxce stop -d google                  Stop all container within domain
-  lxce stop -d google -n still-yellow  Stop container defined by name
-  lxce stop -d google -a alice         Stop container defined by alias
-\end{minted}
-\caption{lxce stop}
-\label{listings: lxce stop}
-\end{listing}
-
-\textbf{lxce uninstall}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-lxce uninstall <options> <flags>
-
-Options
-  -y, --yes                                                            
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-\end{minted}
-\caption{lxce uninstall}
-\label{listings: lxce uninstall}
-\end{listing}
-%% END OF COMMANDS %%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%
+For the commands that are available for our command, we have develop the following commands:
+\begin{itemize}
+	\item{\textbf{lxce init}: initializes the command (configuration files and folder stucture)                         }
+	\item{\textbf{lxce alias}: allow us to define custom names for the containers, as the container names are random}
+	\item{\textbf{lxce delete}: deletes containers and configurations/folders related}
+	\item{\textbf{lxce launch}: launch containers with folders/proxies/permissions configured acording to the configuration files                               }
+	\item{\textbf{lxce list}: output a table of the current containers and their properties}
+	\item{\textbf{lxce pass}: computes password of each container. They are all generated by a common seed that is stored in the main configuration file}
+	\item{\textbf{lxce proxy}: configures the proxies associated to the containers }
+	\item{\textbf{lxce rebase}: allow us to change a container base linux distribution without modyfying the container properties}
+	\item{\textbf{lxce show}: outputs the container configuration files }
+	\item{\textbf{lxce start}: start containers. Really conveninet to start a list of container from the same domain}
+	\item{\textbf{lxce stop}: same as the start subcommand                                 }
+	\item{\textbf{lxce uninstall}: removes all the configuration files and container running in the host }
+\end{itemize}
+* see ANNEX III for a complete description
+\TODO{Add annex}
 
 \newpage
 %%% LXCE-ADMIN %%%
 \subsection{LXCE-admin}
-The second command implemented is intented to be used as an administration tool for managing the hosts with "lxce" installed.  
+The second command implemented is intended to be used as an administration tool for managing the hosts with "lxce" installed.  
 
-The idea is to have a central host with remote access to a list of hosts with the command line tool installed "lxce" in order to syncronize all configuration files from all the available hosts. 
+The idea is to have a central host with remote access to a list of hosts with the command line tool installed "lxce" in order to synchronize all configuration files from all the available hosts. 
 
 Because with all the configurations files in a centralized location we have:
 \begin{itemize}
-	\item{Complete view of all the containers across differents hosts}
+	\item{Complete view of all the containers across different hosts}
 	\item{Access to configuration files for SSH and VNC services}
 	\item{Ability to compute password for remote access to containers}
 \end{itemize}
 
-The syncronization is done using a sync tool (rsync) that enable us to have syncronized folders between different hosts.
+The synchronization is done using a sync tool (rsync) that enable us to have synchronized folders between different hosts.
+
+We can see how would look like in the following figure:
+\begin{figure}[H]
+	\label{fig:LXCE-ADMIN architecture}
+	\centering
+	\includegraphics{img/03/lxce-admin-diagram.pdf}
+	\caption[LXCE-ADMIN block diagram]{\footnotesize{lxce-admin architecture}}
+\end{figure}
+
 
 \subsubsection{Configuration files}
-The files that must be syncronized are:
+The files that must be syncronized are mainly:
 \begin{itemize}
-	\item{SSH: corresponding to \textbf{/etc/lxce/ssh/} folder}
-	\item{VNC: corresponding to \textbf{/etc/lxce/remmina/} folder}
+	\item{SSH: ssh-config files to be distributed and used by the admin host}
+	\item{VNC: remmina configuration files to be used for the admin host and to be distributed}
 \end{itemize}
 in order to be able to use the command ssh correctly and have the automatic vnc configurations for the remmina VNC program (the command will also configure the passwords to be used along remmina).
 
-For the SSH configuration files we will save the files in the following structure:
-\begin{minted}[bgcolor=background]{text}
-\end{minted}
-
-along with 
 
 \subsubsection{Commands}
-Taking into account the previous ideas we have develop the following set of commands:
-
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce-admin [command] <options> <flags>
-
-Commands:
-  lxce-admin config   Configure hosts and configurations files
-  lxce-admin pass     Get user and password from container
-  lxce-admin remmina  Remmina container access
-  lxce-admin vnc      VNC container access
-
-Flags
-      --version  Show version number                                  
-  -h, --help     Show help                                            
-  -v, --verbose
-\end{minted}
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-%%% LIST OF COMMANDS %%%
-\newpage
-\textbf{lxce-admin config}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce-admin [command] <flags>
-
-Commands:
-  lxce-admin config add     Add host and sync files
-  lxce-admin config list    List configured hosts
-  lxce-admin config remove  Remove host and associated files
-  lxce-admin config update  Update host associated files
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-\end{minted}
-\caption{lxce-admin config}
-\label{listings: lxce-admin config}
-\end{listing}
-
-\textbf{lxce-admin config add}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce-admin config add <options> <flags>
-
-Options
-      --dry-run                                                        
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-\end{minted}
-\caption{lxce-admin config add}
-\label{listings: lxce-admin config add}
-\end{listing}
-
-\textbf{lxce-admin config list}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce-admin config list
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-\end{minted}
-\caption{lxce-admin config list}
-\label{listings: lxce-admin config list}
-\end{listing}
-
-\textbf{lxce-admin config remove}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce-admin config remove <options> <flags>
-
-Options
-      --host     configured host                             
-      --dry-run                                              
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-\end{minted}
-\caption{lxce-admin config remove}
-\label{listings: lxce-admin config remove}
-\end{listing}
-
-\textbf{lxce-admin config update}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce-admin config update <options> <flags>
-
-Flags
-      --version  Show version number                                   
-  -h, --help     Show help                                             
-  -v, --verbose
-\end{minted}
-\caption{lxce-admin config update}
-\label{listings: lxce-admin config update}
-\end{listing}
+The subcommands we have develop for the "lxce-admin" tool are:
+\begin{itemize}
+	\item{\textbf{lxce-admin config add}: configures a new host with lxce installed and syncronized all the configuration files for first time}
+	\item{\textbf{lxce-admin config list}: list a table with the hosts configured and the total number of domains and containers}
+	\item{\textbf{lxce-admin config remove}: removes a configured host and it's configuration files}
+	\item{\textbf{lxce-admin config update}: syncronized configuration files from specific host}
+	\item{\textbf{lxce-admin pass}: computes password for containers in specific host}
+	\item{\textbf{lxce-admin remmina}: init remmona client into container}
+	\item{\textbf{lxce-admin vnc}: starts a vnc connection with standar vnc client}
+\end{itemize}
+* see ANNEX III for a complete description
 
 \newpage
-\textbf{lxce-admin pass}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce-admin pass <options> <flags>
-
-Options
-      --host    configured host                              
-  -d, --domain  container domain                             
-  -n, --name    container name                               
-  -a, --alias   container alias                              
-
-Flags
-      --version  Show version number                        
-  -h, --help     Show help                                  
-  -v, --verbose
-\end{minted}
-\caption{lxce-admin pass}
-\label{listings: lxce-admin pass}
-\end{listing}
-
-\textbf{lxce-admin remmina}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce-admin remmina <options> <flags>
-
-Options
-      --host    configured host                              
-  -d, --domain  container domain                             
-  -n, --name    container name                               
-  -a, --alias   container alias                              
-
-Flags
-      --version  Show version number                        
-  -h, --help     Show help                                  
-  -v, --verbose
-\end{minted}
-\caption{lxce-admin remmina}
-\label{listings: lxce-admin remmina}
-\end{listing}
-
-\newpage
-\textbf{lxce-admin vnc}
-\begin{listing}[H]
-\begin{minted}[bgcolor=background]{text}
-Usage: lxce-admin vnc <options> <flags>
-
-Options
-      --host     configured host                             
-  -d, --domain   container domain                            
-  -n, --name     container name                              
-  -a, --alias    container alias                             
-      --scale    scale vnc viewer                            
-      --dry-run                                              
-
-Flags
-      --version  Show version number                        
-  -h, --help     Show help                                  
-  -v, --verbose
-\end{minted}
-\caption{lxce-admin vnc}
-\label{listings: lxce-admin vnc}
-\end{listing}
-%%% END OF COMMANDS %%%
-%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 %%% WEB-ADMIN %%%
-\newpage
 \subsection{Web-admin}
 The last tool implemented consist of a web application builded with React (framework of javascript) along with a minimal server providing a REST API in each host with "lxce" installed.
 
 It is basically a web front-end for our framework that enables to view all our hosts and containers in a detailed view in real time.
 
-It has only been implemented the view of the containers, but the idea of the web application is to be able to manage of all the "lxce" commands throught the API provided and offer a web alternative for the "lxce-admin" command line tool.
+\begin{figure}[H]
+	\label{fig:Web admin architecture}
+	\centering
+	\includegraphics{img/03/web-admin-diagram.pdf}
+	\caption[Web admin block diagram]{\footnotesize{web admin architecture}}
+\end{figure}
 
-The main entry point of the API is the following:
-\begin{minted}[bgcolor=background]{bash}
-http --json GET localhost:5000/containers
-\end{minted}
-\begin{minted}[bgcolor=background]{text}
-HTTP/1.1 200 OK
-Access-Control-Allow-Origin: *
-Connection: keep-alive
-Content-Length: 824
-Content-Type: application/json; charset=utf-8
-Date: Mon, 14 Jun 2021 18:12:46 GMT
-ETag: W/"338-Zebo3shS16lkGZNcHRE+1oMR2Oc"
-Keep-Alive: timeout=5
-X-Powered-By: Express
-\end{minted}
-\begin{minted}[bgcolor=background]{json}
-{
-    "hostname": "oscar-vm",
-    "ip": "localhost",
-    "status": "running",
-    "containers": [
-        {
-            "alias": "",
-            "base": "ubuntu:20.04",
-            "cpu": "23.54 (s)",
-            "domain": "default",
-            "ipv4": "10.10.1.201",
-            "ipv6": "fd42:7c8c:7fab:4125:216:3eff:fe34:89d4",
-            "name": "voiceless-blue",
-            "ports": "22:10000-3000:10001-",
-            "ram": "110.44 MB",
-            "status": "Running",
-            "user": "ubuntu"
-        },
-    ],
-}
-\end{minted}
+It has only been implemented the view of the containers, but the idea of the web application is to be able to manage of all the "lxce" commands through the API provided and offer a web alternative for the "lxce-admin" command line tool.
 
-provided by this simple express server:
+For a detailed view of the API see ANNEX 
+\TODO{put API ANNEX}
+
+
+The API is provided by this simple express server:
 \begin{minted}[bgcolor=background]{javascript}
 const express = require("express")
 const child = require("child_process")
@@ -984,7 +188,6 @@ app.get("/containers", (req, res) => {
 app.listen(PORT, () => {
     console.log(`[*] Server listening on port ${PORT}`)
 })
-
 \end{minted}
 
 \TODO{bibliography for React framework}

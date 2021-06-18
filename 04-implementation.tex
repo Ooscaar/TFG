@@ -9,7 +9,7 @@ In this chapter we will explain the different use cases that our framework provi
 We will explain one workflow for each tool.
 
 \subsection{lxce}
-For the first workflow, we will explain how to initiliaze the command and manage some containers configurations.
+For the first workflow, we will explain how to initialize the command and manage some containers configurations.
 
 In specific we will:
 \begin{itemize}
@@ -23,7 +23,7 @@ In specific we will:
 
 %%% INITIALIZE COMMAND %%%
 \textbf{Initialize the command}
-The first thing we have to do is initizalie the command in order to generate the default configurations files and select different parameters.
+The first thing we have to do is initialize the command in order to generate the default configurations files and select different parameters.
 
 \begin{minted}[bgcolor=background]{text}
 root@oscar-vm: # lxce init
@@ -103,7 +103,7 @@ root@oscar-vm:~# cat /etc/lxce/container_default.conf
 
 %%% CREATE SOME CONTAINERS %%%
 \textbf{Create containers}
-Then we can create 3 containes with different alias in the domain test with:
+Then we can create 3 containers with different alias in the domain test with:
 \begin{minted}[bgcolor=background]{console}
 root@oscar-vm:~# lxce launch -r 3 -d test -a alice bob peter 
 [*] --------------------------------------------------------------
@@ -219,7 +219,7 @@ root@oscar-vm:~# lxce uninstall
 [*] Init: ok!
 [*] Permission checked
 ? Do you want to uninstall the lxce command and all it's configurations? Yes
-[*] Deleting and stoping current containers
+[*] Deleting and stopping current containers
 [**] Removing coloured-purple
 [**] Removing excited-amethyst
 [*] Delete /etc/lxce/
@@ -228,7 +228,7 @@ root@oscar-vm:~# lxce uninstall
 \subsection{lxce-admin}
 The second workflow will consist in how to use the "lxce-admin" tool to manage and existing host with the lxce command installed.
 
-For this example we will do it everything in local but the same applies for external machines with remote acces.
+For this example we will do it everything in local but the same applies for external machines with remote access.
 
 But before starting typing commands in the admin host, we must set up the following in each of the hosts with lxce installed:
 \begin{itemize}
@@ -236,15 +236,6 @@ But before starting typing commands in the admin host, we must set up the follow
 	\item{Init lxce and configure container bases with graphical support for enabling VNC access}
 	\item{Configure public key access to host}
 	\item{Set up a localhost VNC server listening according to the lxce configuration file}
-\end{itemize}
-\subsection{web-admin}
-
-Once everything is set up, we can start working in the admin host. We will basically:
-\begin{itemize}
-	\item{Add the host and automatic rsync the corresponding folders}
-	\item{Test the SSH configuration files}
-	\item{Launch a VNC session with Remmina}
-	\item{Compute password for remote access to containers}
 \end{itemize}
 
 %%% ADD HOST %%%
@@ -294,7 +285,7 @@ ubuntu@itchy-bronze:~$
 \textbf{VNC}
 Another service that is available is VNC access to every container.
 
-For connecting to the container throught VNC we can use two methods:
+For connecting to the container through VNC we can use two methods:
 \begin{itemize}
 	\item{\textbf{lxce-admin vnc}}
 \begin{minted}[bgcolor=background, breaklines]{console}
@@ -308,10 +299,17 @@ where we can see the password stored in the system chain:
 \TODO{put password figure}
 \end{itemize}
 
-
 \TODO{put commands descriptions each}
 
+\subsection{web-admin}
 
+Once everything is set up, we can start working in the admin host. We will basically:
+\begin{itemize}
+	\item{Add the host and automatic rsync the corresponding folders}
+	\item{Test the SSH configuration files}
+	\item{Launch a VNC session with Remmina}
+	\item{Compute password for remote access to containers}
+\end{itemize}
 
 
 

@@ -1,0 +1,38 @@
+
+The main entry point of the API is the following:
+\begin{minted}[bgcolor=background]{bash}
+http --json GET localhost:5000/containers
+\end{minted}
+\begin{minted}[bgcolor=background]{text}
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Connection: keep-alive
+Content-Length: 824
+Content-Type: application/json; charset=utf-8
+Date: Mon, 14 Jun 2021 18:12:46 GMT
+ETag: W/"338-Zebo3shS16lkGZNcHRE+1oMR2Oc"
+Keep-Alive: timeout=5
+X-Powered-By: Express
+\end{minted}
+\begin{minted}[bgcolor=background]{json}
+{
+    "hostname": "oscar-vm",
+    "ip": "localhost",
+    "status": "running",
+    "containers": [
+        {
+            "alias": "",
+            "base": "ubuntu:20.04",
+            "cpu": "23.54 (s)",
+            "domain": "default",
+            "ipv4": "10.10.1.201",
+            "ipv6": "fd42:7c8c:7fab:4125:216:3eff:fe34:89d4",
+            "name": "voiceless-blue",
+            "ports": "22:10000-3000:10001-",
+            "ram": "110.44 MB",
+            "status": "Running",
+            "user": "ubuntu"
+        },
+    ],
+}
+\end{minted}

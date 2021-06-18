@@ -1,0 +1,211 @@
+%%%%%%%%%%%%%%%%%%%%%
+%% APPENDIX-LXCE-CONF %%%%
+%%%%%%%%%%%%%%%%%%%%%
+\newpage\newpage\section{Configuration files}
+
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+/etc/lxce 
+|--- container.conf.d 			
+|   |--- default 			
+|   |   '--- voiceless-blue
+|   '--- derecho 			
+|       '--- relieved-beige
+|--- container_default.conf 		
+|--- lxce.conf 			
+|--- remmina 		
+|   |--- default 
+|   |   '--- oscar-vm.default.voiceless-blue.remmina
+|   '--- derecho 
+|       '--- oscar-vm.derecho.relieved-beige.remmina
+'--- ssh 	
+    |--- default 
+    |   '--- voiceless-blue.conf
+    '--- derecho
+        '--- relieved-beige.conf
+\end{minted}
+\caption{lxce directory structure}
+\label{listings: lxce directory structure /etc/lxce}
+\end{listing}
+
+In this way we are able to manage the container configurations from our command line and update/delete files based on the state of the command.
+
+Where the configurations files content is the following:
+\begin{itemize}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\newpage
+\item{\textbf{container-default.conf}
+
+This file acts as a template for every container to be created.
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{json}
+{
+  "name": "",                           
+  "alias": "",                          
+  "user": "",
+  "id_domain": 0,
+  "id_container": 0,
+
+  "domain": "default",                 
+  "base": "ubuntu:20.04",             
+  "userData": "/datasdd",            
+
+  "proxies": [                      
+    {
+      "name": "ssh",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 22
+    },
+    {
+      "name": "test",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 3000
+    }
+  ],
+}
+\end{minted}
+\caption{/etc/lxce/container-default.conf}
+\label{listings: /etc/lxce/container-default.conf}
+\end{listing}
+\TODO{Think the convention for the name of the figures and the descriptions of the listings}
+}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\newpage
+\item{\textbf{lxce.conf}
+
+This file specifies different parameters of the host where the command is installed, such as:
+\begin{itemize}
+	\item{SSH IP}
+	\item{Hostname}
+	\item{Local VNC server configuration}
+	\item{Seed used for generating passwords}
+	\item{List of container domains currently in the host}
+	\item{List of locations available for the shared containers folders location}
+\end{itemize}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{json}
+{
+  "hypervisor": {
+    "SSH_hostname": "localhost",
+    "SSH_suffix": "oscar-vm",
+    "VNC_server": "localhost",
+    "VNC_port": 5901
+  },
+  "seed": "4b5a003f0e1715df",
+  "domains": [
+    {
+      "id": 0,
+      "name": "default"
+    },
+    {
+      "id": 1,
+      "name": "derecho"
+    }
+  ],
+  "locations": [
+    "/datasdd"
+  ]
+}
+\end{minted}
+\caption{lxce.conf}
+\label{listings: /etc/lxce/lxce.conf}
+\TODO{explain all the parameters}
+\end{listing}
+}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\newpage
+\item{\textbf{container configuration file}
+
+This files list the configured parameters for each container and the ids that uniquelly identifies it
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{json}
+{
+  "name": "voiceless-blue",
+  "alias": "",
+  "user": "ubuntu",
+  "id_domain": 0,
+  "id_container": 0,
+  "domain": "default",
+  "base": "ubuntu:20.04",
+  "userData": "/datasdd",
+  "proxies": [
+    {
+      "name": "ssh",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 22
+    },
+    {
+      "name": "test",
+      "type": "tcp",
+      "listen": "0.0.0.0",
+      "port": 3000
+    }
+  ],
+}
+\end{minted}
+\caption{container configuration file}
+\label{listings: /etc/lxce/container.conf.d/default/voiceless-blue}
+\end{listing}
+}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\clearpage
+\item{\textbf{VNC configuration}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+[remmina]
+ssh_tunnel_privatekey=
+name=oscar-vm.default.voiceless-blue          # Container name
+ssh_tunnel_passphrase=
+password=.                                    # For saving VNC password
+...
+server=localhost:5901                         # VNC server
+disablepasswordstoring=0
+ssh_tunnel_username=ubuntu
+disableclipboard=0
+window_maximize=1
+ssh_tunnel_password=.                         # For saving ssh password
+enable-autostart=0
+proxy=
+ssh_tunnel_server=localhost:10000             # Container SSH Port
+ssh_tunnel_auth=0
+group=oscar-vm.upc.edu                        
+...
+protocol=VNC
+username=ubuntu                               # VNC username
+showcursor=0
+colordepth=32
+
+\end{minted}
+\caption{REMMINA configuration file}
+\label{listing: /etc/lxce/remmina/default/oscar-vm.default.voiceless-blue.remmina}
+\end{listing}
+}
+%%%%%%%%%%
+%% ITEM %%
+%%%%%%%%%%
+\item{\textbf{SSH configuration}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Host oscar-vm.default.voiceless-blue
+   Hostname localhost
+   User ubuntu
+   Port 10000
+   TCPKeepAlive yes
+   ServerAliveInterval 300
+\end{minted}
+\caption{ssh configuration file}
+\label{listings: /etc/lxce/ssh/default/voiceless-blue.conf}
+\end{listing}
+}
+\end{itemize}

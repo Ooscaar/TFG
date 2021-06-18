@@ -15,6 +15,9 @@
 %% DATE: 02/06/2021              %%
 %% VERSION: v0.1                 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Development of a LXD framework}
+\author{Òscar Pérez Castillo}
+
 \begin{document}
 
 %%% COVER %%%
@@ -107,12 +110,13 @@
 \clearpage
 \newpage
 \begin{appendices}
-
-    {Appendices may be included in your thesis but it is not a requirement.}
-
+    \input{appendices/lxce.tex}
+    \input{appendices/lxce-admin.tex}
+    \input{appendices/conf.tex}
 \end{appendices}
 
 %%% TEMPLATEEE !!! %%%
+\newpage
 \subsection{Subsection 4.1}
 \label{subsec:subsec4.1}
 \lipsum[8]
@@ -121,7 +125,7 @@ Read de book \cite{einstein} of Einstein.
 Buenos dias, como te encuentras
 \begin{listing}[H]
 	\begin{minted}[bgcolor=background]{sql}
-		SELECT data.key FROM data
+		SELECT  data.key FROM data
 		  WHERE data.value IN
 		(SELECT MAX(data.value) FROM data)
 	\end{minted}

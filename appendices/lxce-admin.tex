@@ -1,0 +1,155 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% APPENDIX-LXCE-ADMIN %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage\section{lxce-admin}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LIST OF COMMANDS %%%
+\textbf{lxce-admin config}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin [command] <flags>
+
+Commands:
+  lxce-admin config add     Add host and sync files
+  lxce-admin config list    List configured hosts
+  lxce-admin config remove  Remove host and associated files
+  lxce-admin config update  Update host associated files
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config}
+\label{listings: lxce-admin config}
+\end{listing}
+
+\textbf{lxce-admin config add}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin config add <options> <flags>
+
+Options
+      --dry-run                                                        
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config add}
+\label{listings: lxce-admin config add}
+\end{listing}
+
+\textbf{lxce-admin config list}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin config list
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config list}
+\label{listings: lxce-admin config list}
+\end{listing}
+
+\textbf{lxce-admin config remove}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin config remove <options> <flags>
+
+Options
+      --host     configured host                             
+      --dry-run                                              
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config remove}
+\label{listings: lxce-admin config remove}
+\end{listing}
+
+\textbf{lxce-admin config update}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin config update <options> <flags>
+
+Flags
+      --version  Show version number                                   
+  -h, --help     Show help                                             
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin config update}
+\label{listings: lxce-admin config update}
+\end{listing}
+
+\newpage
+\textbf{lxce-admin pass}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin pass <options> <flags>
+
+Options
+      --host    configured host                              
+  -d, --domain  container domain                             
+  -n, --name    container name                               
+  -a, --alias   container alias                              
+
+Flags
+      --version  Show version number                        
+  -h, --help     Show help                                  
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin pass}
+\label{listings: lxce-admin pass}
+\end{listing}
+
+\textbf{lxce-admin remmina}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin remmina <options> <flags>
+
+Options
+      --host    configured host                              
+  -d, --domain  container domain                             
+  -n, --name    container name                               
+  -a, --alias   container alias                              
+
+Flags
+      --version  Show version number                        
+  -h, --help     Show help                                  
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin remmina}
+\label{listings: lxce-admin remmina}
+\end{listing}
+
+\newpage
+\textbf{lxce-admin vnc}
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{text}
+Usage: lxce-admin vnc <options> <flags>
+
+Options
+      --host     configured host                             
+  -d, --domain   container domain                            
+  -n, --name     container name                              
+  -a, --alias    container alias                             
+      --scale    scale vnc viewer                            
+      --dry-run                                              
+
+Flags
+      --version  Show version number                        
+  -h, --help     Show help                                  
+  -v, --verbose
+\end{minted}
+\caption{lxce-admin vnc}
+\label{listings: lxce-admin vnc}
+\end{listing}
+%%% END OF COMMANDS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%
