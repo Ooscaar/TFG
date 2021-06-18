@@ -7,21 +7,20 @@
 %%% Introduction %%%
 Virtualization is a computer mechanism that allows a single computer to host multiple virtual machines, where each system has the ability of running a completely different operating system than the main machine. 
 
-One kind of virtualization it is the `OS-level virtualization' (or containerization), which is a paradigm in which the operating system, through different os level functionalities, can create user instances, where those instances are what we refer as `containers' as they have their own set of os-resources properties in their own environment.
+One kind of virtualization it is the ``OS-level virtualization'' (or containerization), which is a paradigm in which the operating system, through different os level functionalities, can create user instances, where those instances are what we refer as ``containers'' as they have their own set of os-resources properties in their own environment.
 
-On top of that technology, several systems and technologies have emerged over the years. In Linux, the "Linux Containers project" has been working on containers for over ten years and has develop an open source containers platform that provides a set of utilities to provide a framework as close as what you get from a VM (virtual machine). 
+On top of that technology, several systems and technologies have emerged over the years. In Linux, the ``Linux Containers project \cite{linux-containers}'' has been working on containers for over ten years and has develop an open source containers platform that provides a set of utilities to provide a framework as close as what you get from a VM (virtual machine). 
 
-One of that utilities is 'LXC/LXD'. These utilities are a set of tools that allow us to run unmodified Linux distributions inside containers without the overhead of creating a virtual machine. This is extremely helpful because we can create different linux distributions in one unique linux machine.
+One of that utilities is ``LXC/LXD \cite{lxc}\cite{lxd}''. These utilities are a set of tools that allow us to run unmodified Linux distributions inside containers without the overhead of creating a virtual machine. This is extremely helpful because we can create different linux distributions in one unique linux machine.
 
-So, the objective of this thesis is to provide a framework on top of the 'LXC/LXD' utilities to unify some of their commands and improve the management of the containers.
+So, the objective of this thesis is to provide a framework on top of the ``LXC/LXD'' utilities to unify some of their commands and improve the management of the containers.
 
 \bigskip
 
 %%% SECTION: Requirement and specifications %%%
 \subsection{Requirements and specifications}
 \label{ssec:requirements}
-\TODO{poner que el trabajo esta enfocado a poder tener maquinas virtuales de una manera muy light}
-The "lxc/lxd" set of tools are used for creating such "containers". Once created, we can start/stop them, add them shared folders, manage memory, manage cpu resources, set up linux distribution ...
+The ``LXC/LXD'' set of tools are used for creating such ``containers''. Once created, we can start/stop them, add them shared folders, manage memory, manage cpu resources, set up linux distribution ...
 But a lot of commands for properly set up a container with different configurations (folders, proxies...) were needed. Also, when the number of containers increase, we have no way or organize them of categorize them.
 
 So the requirements, based on those problems, were:
@@ -34,8 +33,8 @@ So the requirements, based on those problems, were:
 
 By developing the following base of tools:
 \begin{itemize}
-	\item {\textbf{lxce}: base command installed on top of "lxc". Should be responsible for configuring all the containers based on configuration files and commands.}
-	\item {\textbf{lxce-admin}: command for managing the different hosts with lxce installed in a centralized location}
+	\item {\textbf{LXCE}: base command installed on top of ``LXC'' command line tool. Should be responsible for configuring all the containers based on configuration files and commands.}
+	\item {\textbf{LXCE-ADMIN}: command for managing the different hosts with lxce installed in a centralized location}
 	\item {\textbf{web interface}: minimal web application for visualiazing all the containers and manage them with a simple API}
 \end{itemize}
 
@@ -43,10 +42,10 @@ By developing the following base of tools:
 %%% SECTION: Previous efforts %%%
 \subsection{Previous efforts}
 \label{ssec:previous}
-The thesis began with the two commands (lxce and lxce-admin) in an initial version:
+The thesis began with the two commands (LXCE and LXCE-ADMIN in an initial version:
 \begin{itemize}
-	\item {\textbf{lxce}: this command was in an initial version but it lack a lot of different features along robustness}
-	\item {\textbf{lxce-admin}: this command was simple but should be extended for improve some features}
+	\item {\textbf{LXCE}: this command was in an initial version but it lack a lot of different features along robustness}
+	\item {\textbf{LXCE-ADMIN}: this command was simple but should be extended for improve some features}
 \end{itemize}
 The two were written in Javascript.
 
@@ -57,13 +56,13 @@ For the web interface no versions were made, so it should be coded from the begi
 \label{ssec:gantt}
 For the work plan we set the following goals, in order of preference:
 \begin{itemize}
-	\item {Develop a robust, well tested version for the "lxce" command}
-	\item {Integrate the "lxce" improvements in the centralized "lxce-admin" command}
+	\item {Develop a robust, well tested version for the ``LXCE'' command}
+	\item {Integrate the ``LXCE-ADMIN'' improvements in the centralized ``LXCE-ADMIN'' command}
 	\item {Based on left time, develop the web interface application}
 \end{itemize}
 
 \newpage
-Where we can see summaritze in the following Gantt digram:
+Where we can see summarize it in the following Gantt diagram:
 \begin{figure}[H]
     \input{code/general/gantt_diagrama.tex}
     \caption[Project's Gantt diagram]{\footnotesize{Gantt diagram of the project}}
