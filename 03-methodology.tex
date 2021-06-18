@@ -29,7 +29,7 @@ We could already work only with the "lxc" tool but the problem is that in order 
 		\end{minted}
 	\item{Configure password}
 		\begin{minted}[breaklines,bgcolor=background,style=tango]{console}
-[host]# lxc exec ${name} -- bash -c "echo ${user}:${password} | chpasswd"
+[host]# lxc exec container -- bash -c "echo ${user}:${password} | chpasswd"
 		\end{minted}
 	\item{Set up shared folders}
 		\begin{minted}[breaklines,bgcolor=background,style=tango]{console}
@@ -77,8 +77,8 @@ The list of configuration files is the following:
 	\item{\textbf{ssh}: ssh-config specific files for each container }
 \end{itemize}
 
-* see AnexII for a complete view of the configuration files
-\TODO{add the ANNEX cite}
+* see Appendix \ref{annex:lxce} for a further documentation of each subcommand
+* see \cite{lxc}
 \TODO{add the Remmina cite}
 
 \subsubsection{Commands}

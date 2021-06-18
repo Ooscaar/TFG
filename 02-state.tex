@@ -2,7 +2,7 @@
 %% 02-STATE OF THE ART %%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage\section{State of the art}
-This chapter will provide a general overview, in the context of Linux, of the different technologies used by the operating system to provide the foundation of "containers".
+This chapter will provide a general overview, in the context of Linux, of the different technologies used by the operating system to provide the foundation of ``containers''.
 
 It will also expose a brief comparison between some systems which use containerization and explain which one suits ore needs better.
 
@@ -99,12 +99,12 @@ It is formed basically by:
 Some commands for managing containers:
 \begin{itemize}
 	\item{Creating a container with an Ubuntu template}:
-	      \begin{minted}[bgcolor=background]{bash}
-host# lxc-create -n mycontainer -t ubuntu
+	      \begin{minted}[bgcolor=background]{console}
+[host] # lxc-create -n mycontainer -t ubuntu
 	\end{minted}
 	\item{Run a command inside the container}
-	      \begin{minted}[bgcolor=background]{bash}
-host# lxc-attach -n webserver -- ifconfig eth1 192.168.1.2/24
+	      \begin{minted}[bgcolor=background]{console}
+[host] # lxc-attach -n webserver -- ifconfig eth1 192.168.1.2/24
 	\end{minted}
 \end{itemize}
 
@@ -134,20 +134,20 @@ Some examples for interacting with containers:
 
 \begin{itemize}
 	\item{Creating a container with an Ubuntu template}:
-	      \begin{minted}[bgcolor=background, breaklines]{bash}
-host# lxc launch ubuntu:20.04 test
+	      \begin{minted}[bgcolor=background, breaklines]{console}
+[host] # lxc launch ubuntu:20.04 test
 	\end{minted}
 	\item{Obtain a shell inside the container named test}
-	      \begin{minted}[bgcolor=background, breaklines]{bash}
-host# lxc exec test bash 
+	      \begin{minted}[bgcolor=background, breaklines]{console}
+[host] # lxc exec test bash 
 	\end{minted}
 	\item{Create a proxy device connecting container port 80 with host port 80}
-	      \begin{minted}[bgcolor=background, breaklines]{bash}
-host# lxc config device add test testport80 listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80 
+	      \begin{minted}[bgcolor=background, breaklines]{console}
+[host] # lxc config device add test testport80 listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80 
 	\end{minted}
 	\item{Shared a host folder with the container test}
-	      \begin{minted}[bgcolor=background, breaklines]{bash}
-host# lxc config device add test devicewww disk source=/wwwdata path=/var/www/html 
+	      \begin{minted}[bgcolor=background, breaklines]{console}
+[host] # lxc config device add test devicewww disk source=/wwwdata path=/var/www/html 
 	\end{minted}
 \end{itemize}
 

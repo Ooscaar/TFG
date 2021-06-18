@@ -1,4 +1,3 @@
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% IMPORTS %%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -29,15 +28,20 @@
 
 %%% ABSTRACT %%%
 \newpage
-\addcontentsline{toc}{section}{Abstract}
 \section*{Abstract}
  {Every copy of the thesis the thesis must have an abstract. An abstract must provide a concise summary of the thesis. In style, the
   abstract should be a miniature version of the thesis: short introduction, a summary of the results, conclusions or main
-  arguments presented in the thesis. The abstract may not exceed 150 words for a Degree’s thesis.}
+  arguments presented in the thesis. The abstract may not exceed 150 words for a Degree’s thesis.
+  Pruebas:
+  \cite{einstein}
+  \ref{sec:introduction}
+  }
+
+\addcontentsline{toc}{section}{Abstract}
 
 \newpage
-\addcontentsline{toc}{section}{Revision history}
 \input{code/general/revision_history.tex}
+\addcontentsline{toc}{section}{Revision history}
 
 
 %%% INDEX %%%
@@ -48,11 +52,10 @@
 
 \newpage
 \listoffigures
-\newpage
-\listoftables
 
-\addcontentsline{toc}{section}{Listings}
+\newpage
 \lstlistoflistings
+\addcontentsline{toc}{section}{Listings}
 
 
 
@@ -64,11 +67,10 @@
 %%% 01-INTRODUCTION %%%
 \newpage
 \input{01-introduction.tex}
-\label{sec:introduction}
 
 %%% 02-STATE OF THE ART %%%
-\input{02-state.tex}
 \label{sec:state}
+\input{02-state.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% RESULTS: SECTIONS %%%%%%%%
@@ -76,13 +78,13 @@
 
 %%% 03-METHODOLY %%%
 \clearpage
-\input{03-methodology.tex}
 \label{sec:methodology}
+\input{03-methodology.tex}
 
 %%% 04-IMPLEMENTATION %%%
 \clearpage
-\input{04-implementation.tex}
 \label{sec:implementation}
+\input{04-implementation.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,17 +93,17 @@
 
 %%% 05-BUDGET %%%
 \clearpage
-\input{05-budget.tex}
 \label{sec:budget}
+\input{05-budget.tex}
 
 %%% 06-CONCLUSIONS %%%
 \clearpage
-\input{06-conclusions.tex}
 \label{sec:conclusions}
+\input{06-conclusions.tex}
 
 %%% 07-FUTURE WORK %%%
-\input{07-future-work.tex}
 \label{sec:futurework}
+\input{07-future-work.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,6 +118,7 @@
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography.bib}
+\nocite{*}     %% For listing all references
 
 %%% EXTRA-ANNEX %%%
 \clearpage
@@ -125,60 +128,4 @@
     \input{appendices/lxce-admin.tex}
     \input{appendices/conf.tex}
 \end{appendices}
-
-%%% TEMPLATEEE !!! %%%
-\newpage
-\subsection{Subsection 4.1}
-\label{subsec:subsec4.1}
-\lipsum[8]
-Read de book \cite{einstein} of Einstein.
-
-Buenos dias, como te encuentras
-\begin{listing}[H]
-	\begin{minted}[bgcolor=background]{sql}
-		SELECT  data.key FROM data
-		  WHERE data.value IN
-		(SELECT MAX(data.value) FROM data)
-	\end{minted}
-	\caption{Código SQL, funcionas bien?i}
-	\label{listings:como va esto}
-\end{listing}
-
-
-
-
-\begin{figure}[H]
-\label{fig:prototype1}
-\centering
-\includegraphics[width=10cm]{img/Chapter4/prototype1_edited.jpg}
-\caption[Prototype setup]{\footnotesize{Prototype setup.}}
-\end{figure}
-
-\lipsum[14]
-
-\subsection{Subsection 4.2}
-\label{subsec:subsec4.2}
-
-\begin{table}[H]
-\centering
-\caption[This is the caption]{ \footnotesize This is the other caption. Since the trial size of the experiments showed is one second, the number of \textit{Target} and \textit{Impostor} data corresponds to number of trials or seconds}
-\label{tab:data_partition}
-\footnotesize{
-\begin{tabular}{@{}llcccc@{}}
-\toprule
-\textbf{Dataset}         & \multicolumn{1}{c}{\textbf{Label}} & \textbf{Train} & \textbf{Validation} & \textbf{Develop} & \textbf{Test} \\ \midrule
-\midrule
-\multirow{3}{*}{First} & Target   & $135$ & $45$  & $30$  & $30$  \\
-                         & Impostor & $5,220$    & $1,740$ & $1,890$   & $2,880$    \\
-\cmidrule(lr){3-5} \cmidrule(l){6-6}
-                         & \#Subjects          & \multicolumn{3}{c}{$31$} & $12$ \\
-\midrule
-\multirow{3}{*}{Second}  & Target   & $144$ & $80$  & $48$  & $48$  \\
-                         & Impostor & $2,014$    & $1,119$    & $1,343$    & $1,545$ \\
-\cmidrule(lr){3-5} \cmidrule(l){6-6}
-                         & \#Subjects   & \multicolumn{3}{c}{$15$} & $5$ \\ 
-\bottomrule
-\end{tabular}
-}
-\end{table}
 \end{document}
