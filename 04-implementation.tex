@@ -93,7 +93,7 @@ Where we can see the containers created, along with their properties, with:
 \label{fig:lxce list}
 \centering
 \includegraphics[width=\textwidth]{img/04/lxce-list.pdf}
-\caption[lxce list]{\footnotesize{lxce list.}}
+\caption[lxce list]{\footnotesize{lxce list}}
 \end{figure}
 
 
@@ -172,7 +172,7 @@ root@oscar-vm: # lxce uninstall
 
 
 \subsection{lxce-admin}
-The second workflow will consist in how to use the "lxce-admin" tool to manage and existing host with the lxce command installed.
+The second workflow will consist in how to use the ``lxce-admin'' tool to manage and existing host with the lxce command installed.
 
 For this example we will do it everything in local but the same applies for external machines with remote access.
 
@@ -187,6 +187,7 @@ But before starting typing commands in the admin host, we must set up the follow
 %%% ADD HOST %%%
 \textbf{Add host}
 The first thing that we must do is to add a remote host:
+\begin{listing}[H]
 \begin{minted}[bgcolor=background, breaklines]{console}
 root@oscar-vm: # lxce-admin config add
 ? Select host (ssh config): oscar-vm
@@ -197,7 +198,10 @@ root@oscar-vm: # lxce-admin config add
 [**] Updating passwords
 [*] Updating files: ok
 \end{minted}
+\caption[lxce-admin config add]{\footnotesize{Add host lxce-admin}}
+\end{listing}
 
+\begin{listing}[H]
 \begin{minted}[bgcolor=background, breaklines]{console}
 root@oscar-vm: # lxce-admin config list
 +----------+---------+------------+
@@ -206,12 +210,15 @@ root@oscar-vm: # lxce-admin config list
 | oscar-vm |    1    |     3      |
 +----------+---------+------------+
 \end{minted}
+\caption[lxce-admin config list]{\footnotesize{lxce-admin config list}}
+\end{listing}
 
 \newpage
 \textbf{Test SSH}
 Once set up the host, we have already access to the ssh configuration file of each container.
 
 We can test it by ssh [host.domain.containerName/containerAlias]:
+\begin{listing}[H]
 \begin{minted}[bgcolor=background, breaklines]{console}
 root@oscar-vm: # ssh oscar-vm.google.itchy-bronze
 ubuntu@192.168.122.118's password:
@@ -228,6 +235,8 @@ See "man sudo_root" for details.
 
 ubuntu@itchy-bronze:~$
 \end{minted}
+\caption[ssh container]{\footnotesize{ssh container}}
+\end{listing}
 
 \textbf{VNC}
 Another service that is available is VNC access to every container.
@@ -244,7 +253,6 @@ root@oscar-vm: # lxce-admin remmina --host oscar-vm -d google -n real-black
 \end{minted}
 \end{itemize}
 
-\TODO{put commands descriptions each}
 
 \subsection{web-admin}
 For configuring the web-admin web app we should:
@@ -258,7 +266,7 @@ Once everything is set up, the main page of the web application is the following
 \label{fig:web-admin}
 \centering
 \frame{\includegraphics[width=\textwidth]{img/04/web-admin-first.pdf}}
-\caption[Prototype setup]{\footnotesize{lxce list.}}
+\caption[web-admin host view]{\footnotesize{Web-admin principal view}}
 \end{figure}
 
 Where we can add a host:
@@ -266,17 +274,61 @@ Where we can add a host:
 \label{fig:lxce list}
 \centering
 \frame{\includegraphics[width=\textwidth]{img/04/web-admin-second.pdf}}
-\caption[Prototype setup]{\footnotesize{lxce list.}}
+\caption[web-admin add host]{\footnotesize{Adding host in the web application}}
 \end{figure}
 
+The action of adding a host in the web application will cause a request to the corresponding host the list of current containers running in the system. This is done by a simply GET request to an API which has the following structure:
+
+\begin{listing}[H]
+\begin{minted}[bgcolor=background]{bash}
+http --json GET localhost:5000/containers
+\end{minted}
+\begin{minted}[bgcolor=background]{text}
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Connection: keep-alive
+Content-Length: 824
+Content-Type: application/json; charset=utf-8
+Date: Mon, 14 Jun 2021 18:12:46 GMT
+ETag: W/"338-Zebo3shS16lkGZNcHRE+1oMR2Oc"
+Keep-Alive: timeout=5
+X-Powered-By: Express
+\end{minted}
+\begin{minted}[bgcolor=background]{json}
+{
+    "hostname": "oscar-vm",
+    "ip": "localhost",
+    "status": "running",
+    "containers": [
+        {
+            "alias": "",
+            "base": "ubuntu:20.04",
+            "cpu": "23.54 (s)",
+            "domain": "default",
+            "ipv4": "10.10.1.201",
+            "ipv6": "fd42:7c8c:7fab:4125:216:3eff:fe34:89d4",
+            "name": "voiceless-blue",
+            "ports": "22:10000-3000:10001-",
+            "ram": "110.44 MB",
+            "status": "Running",
+            "user": "ubuntu"
+        },
+    ],
+}
+\end{minted}
+\caption[API request]{\footnotesize{GET /containers from host}}
+\end{listing}
+
+Where it is basically a json will all the properties of the current containers of a host. This json response is then saved in the internal state of the application and is continuosly updated with the last information of each host.
+
 \newpage
-And view the container for each host along with the container properties:
+Then whenever we open the view of a specific host we get a table page of the current containers. For the moment only the view is implemented, but we could add the management of the containers in the current table:
 \begin{figure}[H]
 \label{fig:lxce list}
 \centering
 \frame{\includegraphics[width=\textwidth]{img/04/web-admin-third.pdf}}
-\caption[Prototype setup]{\footnotesize{lxce list.}}
+\caption[web-admin containers view]{\footnotesize{View of the current contianers in host}}
 \end{figure}
 
-where the different tables with the container will be updated each time we open the corresponding page.
+where the different tables with the containers will be updated each time we open the corresponding page.
 

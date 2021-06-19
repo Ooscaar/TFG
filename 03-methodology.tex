@@ -7,7 +7,7 @@ In order to construct our framework we had to develop a set of tools. Basically 
 \begin{itemize}
 	\item{\textbf{lxce}}
 	\item{\textbf{lxce-admin}}
-	\item{\textbf{Web-admin}} 
+	\item{\textbf{web-admin}} 
 \end{itemize}
 
 This chapter will provide with the technical implementation of each tool and how they are constructed and organized. 
@@ -143,7 +143,7 @@ The subcommands we have develop for the ``lxce-admin'' tool are:
 
 \newpage
 %%% WEB-admin %%%
-\subsection{Web-admin}
+\subsection{web-admin}
 The last tool implemented consist of a web application builded with React (framework of javascript~\cite{react}) along with a minimal server providing a REST API in each host with ``lxce'' installed.
 
 It is basically a web front-end for our framework that enables to view all our hosts and containers in a detailed view in real time.
@@ -152,7 +152,7 @@ It is basically a web front-end for our framework that enables to view all our h
 	\label{fig:Web admin architecture}
 	\centering
 	\includegraphics{img/03/web-admin-diagram.pdf}
-	\caption[Web-admin architecture]{\footnotesize{web-admin architecture}}
+	\caption[web-admin architecture]{\footnotesize{web-admin architecture}}
 \end{figure}
 
 The web application will mainly consult each host with HTTP requests to the API, and based on the responses will construct the view of the application. 
