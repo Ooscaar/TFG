@@ -31,7 +31,6 @@ Flags
 %%% LIST OF COMMANDS %%%
 \newpage
 \textbf{lxce alias}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce alias [command] <options> <flags>
 
@@ -45,12 +44,8 @@ Flags
   -h, --help     Show help                                             
   -v, --verbose
 \end{minted}
-\caption{lxce alias}
-\label{listings: lxce alias}
-\end{listing}
 
 \textbf{lxce alias set}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce alias set [options] <flags>
 
@@ -68,14 +63,10 @@ Examples:
   lxce alias set -d google                Set alias alice to container 
   -n front -a alice                       front within google domain
 \end{minted}
-\caption{lxce alias set}
-\label{listings: lxce alias set}
-\end{listing}
 \TODO{Change all descriptions to match [] or <>}
 
 \newpage
 \textbf{lxce alias unset}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce alias unset [options] <flags>
 
@@ -96,12 +87,8 @@ Examples:
                                        alice alias within google 
 				       domain
 \end{minted}
-\caption{lxce alias unset}
-\label{listings: lxce alias unset}
-\end{listing}
 
 \textbf{lxce alias check}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce alias check [options] <flags>
 
@@ -119,13 +106,9 @@ Examples:
   lxce alias check -d google -a alice  check alice alias existence 
                                        within google domain
 \end{minted}
-\caption{lxce alias check}
-\label{listings: lxce alias check}
-\end{listing}
 
 
 \textbf{lxce delete}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce delete <options> <flags>
 
@@ -151,12 +134,8 @@ Examples:
   lxce delete -d google -a alice         Deletes container referenced
                                          by alias
 \end{minted}
-\caption{lxce delete}
-\label{listings: lxce delete}
-\end{listing}
 
 \textbf{lxce init}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce init <flags>
 
@@ -165,13 +144,9 @@ Flags
   -h, --help     Show help                                      
   -v, --verbose
 \end{minted}
-\caption{lxce init}
-\label{listings: lxce init}
-\end{listing}
 
 \newpage
 \textbf{lxce launch}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce launch <options> <flags>
 
@@ -202,13 +177,9 @@ Examples:
   eve                                       with random names and 
                                             alias specified
 \end{minted}
-\caption{lxce launch}
-\label{listings: lxce launch}
-\end{listing}
 
 \newpage
 \textbf{lxce list}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce <options> <flags>
 
@@ -239,13 +210,9 @@ Examples:
   lxce list -c naubr
   lxce list -f json
 \end{minted}
-\caption{lxce list}
-\label{listings: lxce list}
-\end{listing}
 
 \newpage
 \textbf{lxce pass}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce pass <options> <flags>
 
@@ -268,13 +235,9 @@ Examples:
   lxce pass -d google -a alice  Compute container alias password
 
 \end{minted}
-\caption{lxce pass}
-\label{listings: lxce pass}
-\end{listing}
 
 \newpage
 \textbf{lxce proxy}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce proxy <options> <flags>
 
@@ -297,13 +260,9 @@ Examples:
   lxce proxy -d google -n front  Restart container proxies
   lxce proxy -d google -a alice  Restart container proxies
 \end{minted}
-\caption{lxce proxy}
-\label{listings: lxce proxy}
-\end{listing}
 
 \newpage
 \textbf{lxce rebase}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce rebase <options> <flags>
 
@@ -328,13 +287,9 @@ Examples:
   lxce rebase -d google -n still-yellow  Applies new base to container 
   lxce rebase -d google -a alice         Applies new base to container 
 \end{minted}
-\caption{lxce rebase}
-\label{listings: lxce rebase}
-\end{listing}
 
 \newpage
 \textbf{lxce show}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce show <options> <flags>
 
@@ -359,13 +314,9 @@ Examples:
   lxce show -d google -a alice         Stop container configuration 
                                        defined by alias
 \end{minted}
-\caption{lxce show}
-\label{listings: lxce show}
-\end{listing}
 
 \newpage
 \textbf{lxce start}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce start <options> <flags>
 
@@ -386,13 +337,9 @@ Examples:
   lxce start -d google -n still-yellow  Start container defined by name
   lxce start -d google -a alice         Start container defined by alias
 \end{minted}
-\caption{lxce start}
-\label{listings: lxce start}
-\end{listing}
 
 \newpage
 \textbf{lxce stop}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Usage: lxce stop <options> <flags>
 
@@ -413,12 +360,8 @@ Examples:
   lxce stop -d google -n still-yellow  Stop container defined by name
   lxce stop -d google -a alice         Stop container defined by alias
 \end{minted}
-\caption{lxce stop}
-\label{listings: lxce stop}
-\end{listing}
 
 \textbf{lxce uninstall}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 lxce uninstall <options> <flags>
 
@@ -430,8 +373,5 @@ Flags
   -h, --help     Show help                                             
   -v, --verbose
 \end{minted}
-\caption{lxce uninstall}
-\label{listings: lxce uninstall}
-\end{listing}
 %% END OF COMMANDS %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%

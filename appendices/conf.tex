@@ -1,9 +1,8 @@
-%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% APPENDIX-LXCE-CONF %%%%
-%%%%%%%%%%%%%%%%%%%%%
-\newpage\newpage\section{Configuration files}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage\section{lxce configuration files}\label{annex:conf}
 
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 /etc/lxce 
 |--- container.conf.d 			
@@ -24,9 +23,6 @@
     '--- derecho
         '--- relieved-beige.conf
 \end{minted}
-\caption{lxce directory structure}
-\label{listings: lxce directory structure /etc/lxce}
-\end{listing}
 
 In this way we are able to manage the container configurations from our command line and update/delete files based on the state of the command.
 
@@ -39,7 +35,6 @@ Where the configurations files content is the following:
 \item{\textbf{container-default.conf}
 
 This file acts as a template for every container to be created.
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{json}
 {
   "name": "",                           
@@ -68,10 +63,6 @@ This file acts as a template for every container to be created.
   ],
 }
 \end{minted}
-\caption{/etc/lxce/container-default.conf}
-\label{listings: /etc/lxce/container-default.conf}
-\end{listing}
-\TODO{Think the convention for the name of the figures and the descriptions of the listings}
 }
 %%%%%%%%%%
 %% ITEM %%
@@ -88,7 +79,6 @@ This file specifies different parameters of the host where the command is instal
 	\item{List of container domains currently in the host}
 	\item{List of locations available for the shared containers folders location}
 \end{itemize}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{json}
 {
   "hypervisor": {
@@ -113,10 +103,6 @@ This file specifies different parameters of the host where the command is instal
   ]
 }
 \end{minted}
-\caption{lxce.conf}
-\label{listings: /etc/lxce/lxce.conf}
-\TODO{explain all the parameters}
-\end{listing}
 }
 %%%%%%%%%%
 %% ITEM %%
@@ -125,7 +111,6 @@ This file specifies different parameters of the host where the command is instal
 \item{\textbf{container configuration file}
 
 This files list the configured parameters for each container and the ids that uniquelly identifies it
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{json}
 {
   "name": "voiceless-blue",
@@ -152,16 +137,12 @@ This files list the configured parameters for each container and the ids that un
   ],
 }
 \end{minted}
-\caption{container configuration file}
-\label{listings: /etc/lxce/container.conf.d/default/voiceless-blue}
-\end{listing}
 }
 %%%%%%%%%%
 %% ITEM %%
 %%%%%%%%%%
 \clearpage
 \item{\textbf{VNC configuration}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 [remmina]
 ssh_tunnel_privatekey=
@@ -187,15 +168,11 @@ showcursor=0
 colordepth=32
 
 \end{minted}
-\caption{REMMINA configuration file}
-\label{listing: /etc/lxce/remmina/default/oscar-vm.default.voiceless-blue.remmina}
-\end{listing}
 }
 %%%%%%%%%%
 %% ITEM %%
 %%%%%%%%%%
 \item{\textbf{SSH configuration}
-\begin{listing}[H]
 \begin{minted}[bgcolor=background]{text}
 Host oscar-vm.default.voiceless-blue
    Hostname localhost
@@ -204,8 +181,5 @@ Host oscar-vm.default.voiceless-blue
    TCPKeepAlive yes
    ServerAliveInterval 300
 \end{minted}
-\caption{ssh configuration file}
-\label{listings: /etc/lxce/ssh/default/voiceless-blue.conf}
-\end{listing}
 }
 \end{itemize}

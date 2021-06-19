@@ -11,7 +11,7 @@ One kind of virtualization it is the ``OS-level virtualization'' (or containeriz
 
 On top of that technology, several systems and technologies have emerged over the years. In Linux, the ``Linux Containers project \cite{linux-containers}'' has been working on containers for over ten years and has develop an open source containers platform that provides a set of utilities to provide a framework as close as what you get from a VM (virtual machine). 
 
-One of that utilities is ``LXC/LXD \cite{lxc}\cite{lxd}''. These utilities are a set of tools that allow us to run unmodified Linux distributions inside containers without the overhead of creating a virtual machine. This is extremely helpful because we can create different linux distributions in one unique linux machine.
+One of those utilities are ``LXC/LXD \cite{lxc}\cite{lxd}''. These utilities are a set of tools that allow us to run unmodified Linux distributions inside containers without the overhead of creating a virtual machine. This is extremely helpful because we can create different linux distributions in one unique linux machine.
 
 So, the objective of this thesis is to provide a framework on top of the ``LXC/LXD'' utilities to unify some of their commands and improve the management of the containers.
 
@@ -20,32 +20,32 @@ So, the objective of this thesis is to provide a framework on top of the ``LXC/L
 %%% SECTION: Requirement and specifications %%%
 \subsection{Requirements and specifications}
 \label{ssec:requirements}
-The ``LXC/LXD'' set of tools are used for creating such ``containers''. Once created, we can start/stop them, add them shared folders, manage memory, manage cpu resources, set up linux distribution ...
-But a lot of commands for properly set up a container with different configurations (folders, proxies...) were needed. Also, when the number of containers increase, we have no way or organize them of categorize them.
+The ``LXC/LXD'' set of tools are used for creating such ``containers''. Once created, we can start/stop them, add them shared folders, manage memory, manage cpu resources, set up linux distribution \dots
+But a lot of commands for properly set up a container with different configurations (folders, proxies \dots) were needed. Also, when the number of containers increase, we have no way or organize them of categorize them.
 
 So the requirements, based on those problems, were:
 \begin{itemize}
 	\item {Be able to manage a common container configuration by a text file}
-	\item {Possibility to group containers by "domains"}
+	\item {Possibility to group containers by ``domains''}
 	\item {Tag containers by an alias name}
 	\item {Set up proxies based on a text file}
 \end{itemize}
 
 By developing the following base of tools:
 \begin{itemize}
-	\item {\textbf{LXCE}: base command installed on top of ``LXC'' command line tool. Should be responsible for configuring all the containers based on configuration files and commands.}
-	\item {\textbf{LXCE-ADMIN}: command for managing the different hosts with lxce installed in a centralized location}
-	\item {\textbf{web interface}: minimal web application for visualiazing all the containers and manage them with a simple API}
+	\item {\textbf{lxce}: base command installed on top of ``lxc'' command line tool. Should be responsible for configuring all the containers based on configuration files and commands.}
+	\item {\textbf{lxce-admin}: command for managing the different hosts with lxce installed in a centralized location}
+	\item {\textbf{web interface}: minimal web application for visualizing all the containers and manage them with a simple API}
 \end{itemize}
 
 
 %%% SECTION: Previous efforts %%%
 \subsection{Previous efforts}
 \label{ssec:previous}
-The thesis began with the two commands (LXCE and LXCE-ADMIN in an initial version:
+The thesis began with the two commands (lxce and lxce-admin) in an initial version:
 \begin{itemize}
-	\item {\textbf{LXCE}: this command was in an initial version but it lack a lot of different features along robustness}
-	\item {\textbf{LXCE-ADMIN}: this command was simple but should be extended for improve some features}
+	\item {\textbf{lxce}: this command was in an initial version but it lacked a lot of different features along robustness}
+	\item {\textbf{lxce-admin}: this command was simple but should be extended for improve some features}
 \end{itemize}
 The two were written in Javascript.
 
@@ -56,8 +56,8 @@ For the web interface no versions were made, so it should be coded from the begi
 \label{ssec:gantt}
 For the work plan we set the following goals, in order of preference:
 \begin{itemize}
-	\item {Develop a robust, well tested version for the ``LXCE'' command}
-	\item {Integrate the ``LXCE-ADMIN'' improvements in the centralized ``LXCE-ADMIN'' command}
+	\item {Develop a robust, well tested version for the ``lxce'' command}
+	\item {Integrate the ``lxce-admin'' improvements in the centralized ``lxce-admin'' command}
 	\item {Based on left time, develop the web interface application}
 \end{itemize}
 

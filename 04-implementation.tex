@@ -24,6 +24,7 @@ In specific we will:
 \textbf{Initialize the command}
 The first thing we have to do is initialize the command in order to generate the default configurations files and select different parameters.
 
+\begin{listing}[H]
 \begin{minted}[bgcolor=background]{console}
 root@oscar-vm: # lxce init
 ? lxce.conf: Select hypervisor hostname: localhost
@@ -37,11 +38,15 @@ root@oscar-vm: # lxce init
 [] Good!
 root@oscar-vm: #
 \end{minted}
+	\label{fig:Web admin architecture}
+	\caption[lxce init]{\footnotesize{Init lxce command}}
+\end{listing}
 
 %%% CREATE SOME CONTAINERS %%%
 \newpage
 \textbf{Create containers}
 Then we can create 3 containers with different alias in the domain test with:
+\begin{listing}[H]
 \begin{minted}[bgcolor=background]{console}
 root@oscar-vm: # lxce launch -r 3 -d test -a alice bob peter 
 [*] --------------------------------------------------------------
@@ -78,19 +83,24 @@ root@oscar-vm: # lxce launch -r 3 -d test -a alice bob peter
 [*] --------------------------------------------------------------
 [*] Success!!
 \end{minted}
+\caption[lxce launch]{\footnotesize{Launch 3 containers}}
+\end{listing}
+
+\newpage
 Where we can see the containers created, along with their properties, with:
 
 \begin{figure}[H]
 \label{fig:lxce list}
 \centering
 \includegraphics[width=\textwidth]{img/04/lxce-list.pdf}
-\caption[Prototype setup]{\footnotesize{lxce list.}}
+\caption[lxce list]{\footnotesize{lxce list.}}
 \end{figure}
 
 
 %%% CHANGE CONTAINER BASES %%%
 \textbf{Change container base}
 We have set up all the containers to be run with an ubuntu:20.04 base, but if we we would like to change one container (peter for example) to use ubuntu:18.04 instead we could do it by:
+\begin{listing}[H]
 \begin{minted}[bgcolor=background,breaklines]{console}
 root@oscar-vm: # lxce rebase -d test -a peter -b ubuntu:18.04
 ? Do you want to rebase coloured-purple container within test with ubuntu:18.04? Yes
@@ -107,9 +117,12 @@ root@oscar-vm: # lxce rebase -d test -a peter -b ubuntu:18.04
 [**] dns resolution: coloured-purple.lxd -> 10.10.0.168
 [] Rebasing coloured-purple
 \end{minted}
+\caption[lxce rebase]{\footnotesize{lxce rebase}}
+\end{listing}
 where all the properties of the container will remain the same.
 
 So then we would have the following:
+\begin{listing}[H]
 \begin{minted}[bgcolor=background]{console}
 root@oscar-vm: # lxce list -c nadb
 +--------------------+-------+--------+--------------+
@@ -122,11 +135,14 @@ root@oscar-vm: # lxce list -c nadb
 | managing-harlequin | alice |  test  | ubuntu:20.04 |
 +--------------------+-------+--------+--------------+
 \end{minted}
+\caption[lxce list custom]{\footnotesize{lxce list custom}}
+\end{listing}
 
 %%% DELETE SOME CONTAINERS %%%
 \textbf{Delete containers}
 Now if we want to delete a specific container, it's configuration and shared folder:
 
+\begin{listing}[H]
 \begin{minted}[bgcolor=background, breaklines]{console}
 root@oscar-vm: # lxce delete -d test -a alice
 [*] Init: ok!
@@ -134,10 +150,13 @@ root@oscar-vm: # lxce delete -d test -a alice
 ? Do you want to delete managing-harlequin? Yes
 [**] Removing managing-harlequin
 \end{minted}
+\caption[lxce delete]{\footnotesize{lxce delete}}
+\end{listing}
 
 %%% UNINSTALL COMMAND %%%
 \textbf{Uninstall command}
 Finally, if we want to uninstall the command (i.e: remove all containers, configurations files and shared locations folders) we simply:
+\begin{listing}[H]
 \begin{minted}[bgcolor=background, breaklines]{console}
 root@oscar-vm: # lxce uninstall
 [*] Init: ok!
@@ -148,6 +167,9 @@ root@oscar-vm: # lxce uninstall
 [**] Removing excited-amethyst
 [*] Delete /etc/lxce/
 \end{minted}
+\caption[lxce uninstall]{\footnotesize{Uninstall lxce command}}
+\end{listing}
+
 
 \subsection{lxce-admin}
 The second workflow will consist in how to use the "lxce-admin" tool to manage and existing host with the lxce command installed.
