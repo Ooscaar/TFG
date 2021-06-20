@@ -11,7 +11,7 @@
 %% DOCUMENT: main.tex            %%
 %% AUTHOR: Òscar Pérez Castillo  %%
 %% UNIVERSITY: UPC               %%
-%% DATE: 02/06/2021              %%
+%% DATE: 21/06/2021              %%
 %% VERSION: v0.1                 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Development of a LXD framework}
@@ -28,20 +28,17 @@
 
 %%% ABSTRACT %%%
 \newpage
-\section*{Abstract}
- {Every copy of the thesis the thesis must have an abstract. An abstract must provide a concise summary of the thesis. In style, the
-  abstract should be a miniature version of the thesis: short introduction, a summary of the results, conclusions or main
-  arguments presented in the thesis. The abstract may not exceed 150 words for a Degree’s thesis.
-  Pruebas:
-  \cite{einstein}
-  \ref{sec:introduction}
-  }
+\input{abstract.tex}
 
-\addcontentsline{toc}{section}{Abstract}
+%%% ACKNOWLEDGEMENTS %%%
+\newpage
+\input{acknowledgements.tex}
 
 \newpage
 \input{code/general/revision_history.tex}
 \addcontentsline{toc}{section}{Revision history}
+
+
 
 
 %%% INDEX %%%
@@ -125,6 +122,5 @@
     \input{appendices/lxce.tex}
     \input{appendices/conf.tex}
     \input{appendices/lxce-admin.tex}
-    \input{appendices/web-admin.tex}
 \end{appendices}
 \end{document}
