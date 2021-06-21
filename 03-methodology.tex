@@ -5,9 +5,9 @@
 
 In order to construct our framework we had to develop a set of tools. Basically we developed two commands and a minimal web application:
 \begin{itemize}
-	\item{\textbf{lxce}}
-	\item{\textbf{lxce-admin}}
-	\item{\textbf{web-admin}} 
+	\item{\textbf{lxce}.}
+	\item{\textbf{lxce-admin}.}
+	\item{\textbf{web-admin}.} 
 \end{itemize}
 
 This chapter will provide with the technical implementation of each tool and how they are constructed and organized. 
@@ -20,19 +20,19 @@ It is basically a command line tool coded in Typescript built on top of the ``lx
 
 We could already work only with the ``lxc'' tool but the problem is that in order to have a properly set up container we would have to do the following steps, for every container:
 \begin{itemize}
-	\item{Create the container with linux image specified}
+	\item{Create the container with linux image specified:}
 		\begin{minted}[bgcolor=background, style=tango]{console}
 [host]# lxc launch ubuntu:20.04 container
 		\end{minted}
-	\item{Configure password inside container for user ubuntu}
+	\item{Configure password inside container for user ubuntu:}
 		\begin{minted}[breaklines,bgcolor=background,style=tango]{console}
 [host]# lxc exec container -- bash -c "ubuntu:1234 | chpasswd"
 		\end{minted}
-	\item{Set up shared folders between host and container}
+	\item{Set up shared folders between host and container:}
 		\begin{minted}[breaklines,bgcolor=background,style=tango]{console}
 [host]# lxc config device add containers myfolder disk source=/www/data path=/data
 		\end{minted}
-	\item{Set up a proxy, connecting host port 4000 with container port 80}
+	\item{Set up a proxy, connecting host port 4000 with container port 80:}
 		\begin{minted}[breaklines,bgcolor=background,style=tango]{console}
 [host]# lxc config device add myproxy proxy listen=tcp:0.0.0.0:4000 connect=tcp:10.1.2.1:80
 		\end{minted}
@@ -44,11 +44,11 @@ Everything is managed individually, which is good for a basic set up, but for si
 
 So the idea of this command is to resolve such limitations with a command which could:
 \begin{itemize}
-	\item{Manage containers by configuration files, with a default configuration file}
-	\item{Organize containers by ``domains''}
-	\item{Be able to reference containers by aliases}
-	\item{Configure proxies and shared locations with a configuration file}
-	\item{Generate SSH and VNC configuration files to be distributed}
+	\item{Manage containers by configuration files, with a default configuration file.}
+	\item{Organize containers by ``domains''.}
+	\item{Be able to reference containers by aliases.}
+	\item{Configure proxies and shared locations with a configuration file.}
+	\item{Generate SSH and VNC configuration files to be distributed.}
 \end{itemize}
 
 The architecture of the command line tool is the following:
@@ -56,7 +56,7 @@ The architecture of the command line tool is the following:
 	\label{fig:lxce architecture}
 	\centering
 	\includegraphics{img/03/lxce-diagram.pdf}
-	\caption[lxce architecture]{\footnotesize{lxce architecture}}
+	\caption[lxce architecture]{\footnotesize{lxce architecture.}}
 \end{figure}
 
 Once defined all the specifications for the command, we will explain how are the configuration files organized and the list of subcommands implemented.
@@ -67,30 +67,30 @@ Our command uses a series of configuration files for defining a list of properti
 
 The list of configuration files is the following:
 \begin{itemize}
-	\item{\textbf{container-default.conf}: default configuration file. Defines the default container configuration template}
-	\item{\textbf{lxce.conf}: general command configuration. Defines properties such as the hostname of host}
-	\item{\textbf{individual container configuration files}: they follow the container based template and are updated based on their properties}
-	\item{\textbf{remmina}: defines a configuration file specific for a VNC client (Remmina~\cite{remmina}) }
-	\item{\textbf{ssh}: ssh-config specific files for each container }
+	\item{\textbf{container-default.conf}: default configuration file. Defines the default container configuration template.}
+	\item{\textbf{lxce.conf}: general command configuration. Defines properties such as the hostname of host.}
+	\item{\textbf{individual container configuration files}: they follow the container based template and are updated based on their properties.}
+	\item{\textbf{remmina}: defines a configuration file specific for a VNC client (Remmina~\cite{remmina}). }
+	\item{\textbf{ssh}: ssh-config specific files for each container.}
 \end{itemize}
 
-*~see Appendix~\ref{annex:conf} for a further documention of the configuration files
+*~see Appendix~\ref{annex:conf} for a further documentation of the configuration files
 
 \subsubsection{Commands}
 For the commands that are available for our command, we have develop the following commands:
 \begin{itemize}
-	\item{\textbf{lxce init}: initializes the command (configuration files and folder structure)                         }
-	\item{\textbf{lxce alias}: allow us to define custom names for the containers, as the container names are random}
-	\item{\textbf{lxce delete}: deletes containers and configurations/folders related}
-	\item{\textbf{lxce launch}: launch containers with folders/proxies/permissions configured according to the configuration files                               }
-	\item{\textbf{lxce list}: output a table of the current containers and their properties}
-	\item{\textbf{lxce pass}: computes password of each container. They are all generated by a common seed that is stored in the main configuration file}
-	\item{\textbf{lxce proxy}: configures the proxies associated to the containers }
-	\item{\textbf{lxce rebase}: allow us to change a container base linux distribution without modifying the container properties}
-	\item{\textbf{lxce show}: outputs the container configuration files }
-	\item{\textbf{lxce start}: start containers in a group or indidually}
-	\item{\textbf{lxce stop}: same as the start subcommand                                 }
-	\item{\textbf{lxce uninstall}: removes all the configuration files and container running in the host }
+	\item{\textbf{lxce init}: initializes the command (configuration files and folder structure).}
+	\item{\textbf{lxce alias}: allow us to define custom names for the containers, as the container names are random.}
+	\item{\textbf{lxce delete}: deletes containers and configurations/folders related.}
+	\item{\textbf{lxce launch}: launch containers with folders/proxies/permissions configured according to the configuration files.                               }
+	\item{\textbf{lxce list}: output a table of the current containers and their properties.}
+	\item{\textbf{lxce pass}: computes password of each container. They are all generated by a common seed that is stored in the main configuration file.}
+	\item{\textbf{lxce proxy}: configures the proxies associated to the containers.}
+	\item{\textbf{lxce rebase}: allow us to change a container base linux distribution without modifying the container properties.}
+	\item{\textbf{lxce show}: outputs the container configuration files.}
+	\item{\textbf{lxce start}: start containers in a group or individually.}
+	\item{\textbf{lxce stop}: same as the start subcommand.                              }
+	\item{\textbf{lxce uninstall}: removes all the configuration files and container running in the host. }
 \end{itemize}
 *~see Appendix~\ref{annex:lxce} for a complete description of each command
 
@@ -103,9 +103,9 @@ The idea is to have a central host with remote access to a list of hosts with th
 
 Because with all the configurations files in a centralized location we have:
 \begin{itemize}
-	\item{Complete view of all the containers across different hosts}
-	\item{Access to configuration files for SSH and VNC services}
-	\item{Ability to compute password for remote access to containers}
+	\item{Complete view of all the containers across different hosts.}
+	\item{Access to configuration files for SSH and VNC services.}
+	\item{Ability to compute password for remote access to containers.}
 \end{itemize}
 
 The synchronization is done using a sync tool (rsync\cite{rsync}) that enable us to have synchronized folders between different hosts.
@@ -115,15 +115,15 @@ We can see how would look like in the following figure:
 	\label{fig:lxce-admin architecture}
 	\centering
 	\includegraphics{img/03/lxce-admin-diagram.pdf}
-	\caption[lxce-admin architecture]{\footnotesize{lxce-admin architecture}}
+	\caption[lxce-admin architecture]{\footnotesize{lxce-admin architecture.}}
 \end{figure}
 
 
 \subsubsection{Configuration files}
 The files that must be synchronized are mainly:
 \begin{itemize}
-	\item{SSH: ssh-config files to be distributed and used by the admin host}
-	\item{VNC: remmina configuration files to be used for the admin host and to be distributed}
+	\item{SSH: ssh-config files to be distributed and used by the admin host.}
+	\item{VNC: remmina configuration files to be used for the admin host and to be distributed.}
 \end{itemize}
 in order to be able to use the command ssh correctly and have the automatic vnc configurations for the remmina VNC program (the command will also configure the passwords to be used along remmina).
 
@@ -131,13 +131,13 @@ in order to be able to use the command ssh correctly and have the automatic vnc 
 \subsubsection{Commands}
 The subcommands we have develop for the ``lxce-admin'' tool are:
 \begin{itemize}
-	\item{\textbf{lxce-admin config add}: configures a new host with lxce installed and syncronized all the configuration files for first time}
-	\item{\textbf{lxce-admin config list}: list a table with the hosts configured and the total number of domains and containers}
-	\item{\textbf{lxce-admin config remove}: removes a configured host and it's configuration files}
-	\item{\textbf{lxce-admin config update}: synchronized configuration files from specific host}
-	\item{\textbf{lxce-admin pass}: computes password for containers in specific host}
-	\item{\textbf{lxce-admin remmina}: init remmina client into container}
-	\item{\textbf{lxce-admin vnc}: starts a vnc connection with standard vnc client}
+	\item{\textbf{lxce-admin config add}: configures a new host with lxce installed and syncronized all the configuration files for first time.}
+	\item{\textbf{lxce-admin config list}: list a table with the hosts configured and the total number of domains and containers.}
+	\item{\textbf{lxce-admin config remove}: removes a configured host and it's configuration files.}
+	\item{\textbf{lxce-admin config update}: synchronized configuration files from specific host.}
+	\item{\textbf{lxce-admin pass}: computes password for containers in specific host.}
+	\item{\textbf{lxce-admin remmina}: init remmina client into container.}
+	\item{\textbf{lxce-admin vnc}: starts a vnc connection with standard vnc client.}
 \end{itemize}
 *~see Appendix~\ref{annex:lxce-admin} for a complete description of each command
 
@@ -152,7 +152,7 @@ It is basically a web front-end for our framework that enables to view all our h
 	\label{fig:Web admin architecture}
 	\centering
 	\includegraphics{img/03/web-admin-diagram.pdf}
-	\caption[web-admin architecture]{\footnotesize{web-admin architecture}}
+	\caption[web-admin architecture]{\footnotesize{web-admin architecture.}}
 \end{figure}
 
 The web application will mainly consult each host with HTTP requests to the API, and based on the responses will construct the view of the application. 
@@ -183,9 +183,9 @@ app.listen(PORT, () => {
     console.log(`[*] Server listening on port ${PORT}`)
 })
 \end{minted}
-\caption{Express server}
+\caption{Express server.}
 \label{listings: lxce alias}
 \end{listing}
 
-which mainly listen in a specific port and exposes a single API endpoint.
+which mainly listens in a specific port and exposes a single API endpoint.
 

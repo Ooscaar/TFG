@@ -19,7 +19,7 @@ And as the functionalities offered are implemented inside the kernel, they don't
 	\label{fig:Virtualization vs Containers}
 	\centering
 	\includegraphics[width=\textwidth]{img/02/02-state-virtualization-vs-containers.png}
-	\caption[Virtualization vs Containers]{\footnotesize{Virtualization vs Containers}}
+	\caption[Virtualization vs Containers]{\footnotesize{Virtualization vs Containers.}}
 \end{figure}
 
 This creates a lightweight solution for applications where only one service will be running (such as a web server) without the need of setting up a whole VM with a separated kernel.
@@ -33,20 +33,20 @@ In this way, different process with different labels can have separate views of 
 
 The kernel provides 7 namespaces:
 \begin{itemize}
-	\item{Mount (mnt)}
-	\item{Process ID (pid) (mnt)}
-	\item{Network (net)}
-	\item{Inter-process Communication (ipc)}
-	\item{Control group (cgroup)}
-	\item{UTS}
-	\item{User ID (user)}
+	\item{Mount (mnt).}
+	\item{Process ID (pid) (mnt).}
+	\item{Network (net).}
+	\item{Inter-process Communication (ipc).}
+	\item{Control group (cgroup).}
+	\item{UTS.}
+	\item{User ID (user).}
 \end{itemize}
 
 And they are manipulated using 3 syscalls:
 \begin{itemize}
-	\item{clone(): used with namespaces, creates a new process in the specified namespace}
-	\item{unshare(): modify the context of a process}
-	\item{setns(): allows attaching a process to an existing namespace}
+	\item{clone(): used with namespaces, creates a new process in the specified namespace.}
+	\item{unshare(): modify the context of a process.}
+	\item{setns(): allows attaching a process to an existing namespace.}
 \end{itemize}
 
 \paragraph{Cgroups.} Control groups (``cgroups'') are a kernel feature that allows the kernel to allocate resources (CPU time, system memory) to a group of process. They are not dependant of namespaces, but they are used with namespaces to limit, control and isolate resource usage.
@@ -65,7 +65,7 @@ Different runtimes and systems have emerged over the recent years:
 	\label{fig:Runtimes containers landscape}
 	\centering
 	\includegraphics[width=\textwidth]{img/02/02-runtimes.png}
-	\caption[Runtimes lansdcape]{\footnotesize{Runtimes landscape}}
+	\caption[Runtimes landscape]{\footnotesize{Runtimes landscape.}}
 \end{figure}
 
 Where this thesis has been builded with the runtime of ``LXD'', as it is intended to provide a kind of full virtual machine ``container'' that behaves like a normal linux distribution, whereas other systems (such as Docker) are more focused in running applications (ex: running a database service).
@@ -81,10 +81,10 @@ It combines namespaces and cgroups, along as other security mechanisms to provid
 
 It is formed basically by:
 \begin{itemize}
-	\item{C library (liblxc)}
-	\item{Several languages bindings}
-	\item{Set of tools for controlling containers}
-	\item{Distribution templates}
+	\item{C library (liblxc).}
+	\item{Several languages bindings.}
+	\item{Set of tools for controlling containers.}
+	\item{Distribution templates.}
 \end{itemize}
 
 It offers some programs for managing containers:
@@ -93,7 +93,7 @@ It offers some programs for managing containers:
 	      \begin{minted}[bgcolor=background]{console}
 [host] # lxc-create -n mycontainer -t ubuntu
 	\end{minted}
-	\item{Run a command inside the container}
+	\item{Run a command inside the container:}
 	      \begin{minted}[bgcolor=background]{console}
 [host] # lxc-attach -n webserver -- ifconfig eth1 192.168.1.2/24
 	\end{minted}
@@ -101,10 +101,10 @@ It offers some programs for managing containers:
 
 Where we can customize the containers in different ways such as:
 \begin{itemize}
-	\item{Attaching devices}
+	\item{Attaching devices.}
 	\item{Configure bridges, hardware addresses, network configurations ...}
-	\item{Migrate containers from one host to other host}
-	\item{Set up unprivileged containers}
+	\item{Migrate containers from one host to other host.}
+	\item{Set up unprivileged containers.}
 \end{itemize}
 
 \subsection{LXD}
@@ -112,8 +112,8 @@ Where we can customize the containers in different ways such as:
 
 Is composed basically by:
 \begin{itemize}
-	\item{A REST API over a local unix socket as well as over the network}
-	\item{A client, provided by a new command line tool ``lxc'', which talks with the REST API}
+	\item{A REST API over a local unix socket as well as over the network.}
+	\item{A client, provided by a new command line tool ``lxc'', which talks with the REST API.}
 \end{itemize}
 so we are able to manage the containers by a REST API in a flexible and composable way.
 
@@ -128,15 +128,15 @@ Some examples for interacting with containers:
 	      \begin{minted}[bgcolor=background, breaklines]{console}
 [host] # lxc launch ubuntu:20.04 box
 	\end{minted}
-	\item{Obtain a shell inside the container named box}
+	\item{Obtain a shell inside the container named box:}
 	      \begin{minted}[bgcolor=background, breaklines]{console}
 [host] # lxc exec box bash 
 	\end{minted}
-	\item{Create a proxy device connecting container port 80 with host port 80}
+	\item{Create a proxy device connecting container port 80 with host port 80:}
 	      \begin{minted}[bgcolor=background, breaklines]{console}
 [host] # lxc config device add box testport80 listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80 
 	\end{minted}
-	\item{Shared a host folder with the container test}
+	\item{Shared a host folder with the container test:}
 	      \begin{minted}[bgcolor=background, breaklines]{console}
 [host] # lxc config device add box devicewww disk source=/wwwdata path=/var/www/html 
 	\end{minted}

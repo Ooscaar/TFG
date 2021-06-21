@@ -12,12 +12,12 @@ For the first workflow, we will explain how to initialize the command and manage
 
 In specific we will:
 \begin{itemize}
-	\item{Initialize the command}
-	\item{Create some containers}
-	\item{Change linux distributions for containers}
-	\item{Delete some containers}
-	\item{Add and delete proxies on containers}
-	\item{Delete the command and configurations}
+	\item{Initialize the command.}
+	\item{Create some containers.}
+	\item{Change linux distributions for containers.}
+	\item{Delete some containers.}
+	\item{Add and delete proxies on containers.}
+	\item{Delete the command and configurations.}
 \end{itemize}
 
 %%% INITIALIZE COMMAND %%%
@@ -39,7 +39,7 @@ root@oscar-vm: # lxce init
 root@oscar-vm: #
 \end{minted}
 	\label{fig:Web admin architecture}
-	\caption[lxce init]{\footnotesize{Init lxce command}}
+	\caption[lxce init]{\footnotesize{Init lxce command.}}
 \end{listing}
 
 %%% CREATE SOME CONTAINERS %%%
@@ -83,7 +83,7 @@ root@oscar-vm: # lxce launch -r 3 -d test -a alice bob peter
 [*] --------------------------------------------------------------
 [*] Success!!
 \end{minted}
-\caption[lxce launch]{\footnotesize{Launch 3 containers}}
+\caption[lxce launch]{\footnotesize{Launch 3 containers.}}
 \end{listing}
 
 \newpage
@@ -93,7 +93,7 @@ Where we can see the containers created, along with their properties, with:
 \label{fig:lxce list}
 \centering
 \includegraphics[width=\textwidth]{img/04/lxce-list.pdf}
-\caption[lxce list]{\footnotesize{lxce list}}
+\caption[lxce list]{\footnotesize{lxce list.}}
 \end{figure}
 
 
@@ -117,7 +117,7 @@ root@oscar-vm: # lxce rebase -d test -a peter -b ubuntu:18.04
 [**] dns resolution: coloured-purple.lxd -> 10.10.0.168
 [] Rebasing coloured-purple
 \end{minted}
-\caption[lxce rebase]{\footnotesize{lxce rebase}}
+\caption[lxce rebase]{\footnotesize{lxce rebase.}}
 \end{listing}
 where all the properties of the container will remain the same.
 
@@ -135,7 +135,7 @@ root@oscar-vm: # lxce list -c nadb
 | managing-harlequin | alice |  test  | ubuntu:20.04 |
 +--------------------+-------+--------+--------------+
 \end{minted}
-\caption[lxce list custom]{\footnotesize{lxce list custom}}
+\caption[lxce list custom]{\footnotesize{lxce list custom.}}
 \end{listing}
 
 %%% DELETE SOME CONTAINERS %%%
@@ -150,7 +150,7 @@ root@oscar-vm: # lxce delete -d test -a alice
 ? Do you want to delete managing-harlequin? Yes
 [**] Removing managing-harlequin
 \end{minted}
-\caption[lxce delete]{\footnotesize{lxce delete}}
+\caption[lxce delete]{\footnotesize{lxce delete.}}
 \end{listing}
 
 %%% UNINSTALL COMMAND %%%
@@ -167,7 +167,7 @@ root@oscar-vm: # lxce uninstall
 [**] Removing excited-amethyst
 [*] Delete /etc/lxce/
 \end{minted}
-\caption[lxce uninstall]{\footnotesize{Uninstall lxce command}}
+\caption[lxce uninstall]{\footnotesize{Uninstall lxce command.}}
 \end{listing}
 
 
@@ -178,10 +178,10 @@ For this example we will do it everything in local but the same applies for exte
 
 But before starting typing commands in the admin host, we must set up the following in each of the hosts with lxce installed:
 \begin{itemize}
-	\item{Install lxce}
-	\item{Init lxce and configure container bases with graphical support for enabling VNC access}
-	\item{Configure public key access to host}
-	\item{Set up a localhost VNC server listening according to the lxce configuration file}
+	\item{Install lxce.}
+	\item{Init lxce and configure container bases with graphical support for enabling VNC access.}
+	\item{Configure public key access to host.}
+	\item{Set up a localhost VNC server listening according to the lxce configuration file.}
 \end{itemize}
 
 %%% ADD HOST %%%
@@ -198,7 +198,7 @@ root@oscar-vm: # lxce-admin config add
 [**] Updating passwords
 [*] Updating files: ok
 \end{minted}
-\caption[lxce-admin config add]{\footnotesize{Add host lxce-admin}}
+\caption[lxce-admin config add]{\footnotesize{Add host lxce-admin.}}
 \end{listing}
 
 \begin{listing}[H]
@@ -210,7 +210,7 @@ root@oscar-vm: # lxce-admin config list
 | oscar-vm |    1    |     3      |
 +----------+---------+------------+
 \end{minted}
-\caption[lxce-admin config list]{\footnotesize{lxce-admin config list}}
+\caption[lxce-admin config list]{\footnotesize{lxce-admin config list.}}
 \end{listing}
 
 \newpage
@@ -235,7 +235,7 @@ See "man sudo_root" for details.
 
 ubuntu@itchy-bronze:~$
 \end{minted}
-\caption[ssh container]{\footnotesize{ssh container}}
+\caption[ssh container]{\footnotesize{ssh container.}}
 \end{listing}
 
 \textbf{VNC}
@@ -243,11 +243,11 @@ Another service that is available is VNC access to every container.
 
 For connecting to the container through VNC we can use two methods:
 \begin{itemize}
-	\item{\textbf{lxce-admin vnc}: will open a normal VNC client}
+	\item{\textbf{lxce-admin vnc}: will open a normal VNC client:}
 \begin{minted}[bgcolor=background, breaklines]{console}
 root@oscar-vm: # lxce-admin vnc --host oscar-vm -d google -n real-black --scale 1
 \end{minted}
-	\item{\textbf{lxce-admin remmina}: will open remmina (VNC client). The advantage is that remmina is able to use system passwords saved in the computer chain generated by the command, so we won't have to type the ssh password not the vnc password}
+	\item{\textbf{lxce-admin remmina}: will open remmina (VNC client). The advantage is that remmina is able to use system passwords saved in the computer chain generated by the command, so we won't have to type the ssh password not the vnc password:}
 \begin{minted}[bgcolor=background, breaklines]{console}
 root@oscar-vm: # lxce-admin remmina --host oscar-vm -d google -n real-black
 \end{minted}
@@ -257,8 +257,8 @@ root@oscar-vm: # lxce-admin remmina --host oscar-vm -d google -n real-black
 \subsection{web-admin}
 For configuring the web-admin web app we should:
 \begin{itemize}
-	\item{Start the web application in an admin host}
-	\item{Start the express server in each of the hosts with lxce installed in order to serve the corresponding API}
+	\item{Start the web application in an admin host.}
+	\item{Start the express server in each of the hosts with lxce installed in order to serve the corresponding API.}
 \end{itemize}
 
 Once everything is set up, the main page of the web application is the following:
@@ -266,7 +266,7 @@ Once everything is set up, the main page of the web application is the following
 \label{fig:web-admin}
 \centering
 \frame{\includegraphics[width=\textwidth]{img/04/web-admin-first.pdf}}
-\caption[web-admin host view]{\footnotesize{Web-admin principal view}}
+\caption[web-admin host view]{\footnotesize{Web-admin principal view.}}
 \end{figure}
 
 Where we can add a host:
@@ -274,7 +274,7 @@ Where we can add a host:
 \label{fig:lxce list}
 \centering
 \frame{\includegraphics[width=\textwidth]{img/04/web-admin-second.pdf}}
-\caption[web-admin add host]{\footnotesize{Adding host in the web application}}
+\caption[web-admin add host]{\footnotesize{Adding host in the web application.}}
 \end{figure}
 
 The action of adding a host in the web application will cause a request to the corresponding host the list of current containers running in the system. This is done by a simply GET request to an API which has the following structure:
@@ -316,10 +316,10 @@ X-Powered-By: Express
     ],
 }
 \end{minted}
-\caption[API request]{\footnotesize{GET /containers from host}}
+\caption[API request]{\footnotesize{GET /containers from host.}}
 \end{listing}
 
-Where it is basically a json will all the properties of the current containers of a host. This json response is then saved in the internal state of the application and is continuosly updated with the last information of each host.
+Where it is basically a json will all the properties of the current containers of a host. This json response is then saved in the internal state of the application and is continuously updated with the last information of each host.
 
 \newpage
 Then whenever we open the view of a specific host we get a table page of the current containers. For the moment only the view is implemented, but we could add the management of the containers in the current table:
@@ -327,7 +327,7 @@ Then whenever we open the view of a specific host we get a table page of the cur
 \label{fig:lxce list}
 \centering
 \frame{\includegraphics[width=\textwidth]{img/04/web-admin-third.pdf}}
-\caption[web-admin containers view]{\footnotesize{View of the current contianers in host}}
+\caption[web-admin containers view]{\footnotesize{View of the current containers in host.}}
 \end{figure}
 
 where the different tables with the containers will be updated each time we open the corresponding page.

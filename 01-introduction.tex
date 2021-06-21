@@ -25,17 +25,17 @@ But a lot of commands for properly set up a container with different configurati
 
 So the requirements, based on those problems, were:
 \begin{itemize}
-	\item {Be able to manage a common container configuration by a text file}
-	\item {Possibility to group containers by ``domains''}
-	\item {Tag containers by an alias name}
-	\item {Set up proxies based on a text file}
+	\item {Be able to manage a common container configuration by a text file.}
+	\item {Possibility to group containers by ``domains''.}
+	\item {Tag containers by an alias name.}
+	\item {Set up proxies based on a text file.}
 \end{itemize}
 
 By developing the following base of tools:
 \begin{itemize}
 	\item {\textbf{lxce}: base command installed on top of ``lxc'' command line tool. Should be responsible for configuring all the containers based on configuration files and commands.}
-	\item {\textbf{lxce-admin}: command for managing the different hosts with lxce installed in a centralized location}
-	\item {\textbf{web interface}: minimal web application for visualizing all the containers and manage them with a simple API}
+	\item {\textbf{lxce-admin}: command for managing the different hosts with lxce installed in a centralized location.}
+	\item {\textbf{web interface}: minimal web application for visualizing all the containers and manage them with a simple API.}
 \end{itemize}
 
 
@@ -44,8 +44,8 @@ By developing the following base of tools:
 \label{ssec:previous}
 The thesis began with the two commands (lxce and lxce-admin) in an initial version:
 \begin{itemize}
-	\item {\textbf{lxce}: this command was in an initial version but it lacked a lot of different features along robustness}
-	\item {\textbf{lxce-admin}: this command was simple but should be extended for improve some features}
+	\item {\textbf{lxce}: this command was in an initial version but it lacked a lot of different features along robustness.}
+	\item {\textbf{lxce-admin}: this command was simple but should be extended for improve some features.}
 \end{itemize}
 The two were written in Javascript.
 
@@ -56,18 +56,21 @@ For the web interface no versions were made, so it should be coded from the begi
 \label{ssec:gantt}
 For the work plan we set the following goals, in order of preference:
 \begin{itemize}
-	\item {Develop a robust, well tested version for the ``lxce'' command}
-	\item {Integrate the ``lxce-admin'' improvements in the centralized ``lxce-admin'' command}
-	\item {Based on left time, develop the web interface application}
+	\item {Develop a robust, well tested version for the ``lxce'' command.}
+	\item {Integrate the ``lxce-admin'' improvements in the centralized ``lxce-admin'' command.}
+	\item {Based on left time, develop the web interface application.}
 \end{itemize}
 
 \newpage
 Where we can see summarize it in the following Gantt diagram:
 \begin{figure}[H]
     \input{code/general/gantt_diagrama.tex}
-    \caption[Project's Gantt diagram]{\footnotesize{Gantt diagram of the project}}
+    \caption[Project's Gantt diagram]{\footnotesize{Gantt diagram of the project.}}
     \label{fig:gantt}
 \end{figure}
-where no significant incidences nor deviations ocurred.
+In term of deviations of the initial plan, we intended to provide a subcommand in the ``lxce'' command line tool which could generate automatic
+``nginx'' configurations. It involved having to configure and work
+with web certificates but an external approval was necessary so at the
+end had to be canceled.
 \bigskip
 
