@@ -1,0 +1,54 @@
+\begin{ganttchart}[y unit title=0.4cm,
+y unit chart=0.5cm,
+vgrid,hgrid,
+title height=1,
+%today=25,%
+%today offset=.5,%
+%today label=Now,%
+%bar/.style={draw,fill=cyan},
+bar incomplete/.append style={fill=yellow!50},
+bar height=0.7]{1}{26}
+
+ % dies
+ \gantttitle{Phases of the Project}{26} \\
+ \gantttitle{2021}{26} \\
+ \gantttitle{Feb}{4}
+ \gantttitle{Mar}{5}
+ \gantttitle{April}{5}
+ \gantttitle{May}{5}
+ \gantttitle{Jun}{5} 
+ \gantttitle{Jul}{2} \\
+ 
+ % caixes elem0 .. elem9 
+ % INTRODUCTION
+ \ganttgroup[inline=false]{Introduction}{1}{2}\\
+ \ganttbar[progress=100,bar/.style={draw,fill=cyan}]{Learn Javascript}{1}{1} \\
+ \ganttbar[progress=100,bar/.style={draw,fill=cyan}]{Learn about containers}{2}{2} \\
+
+ % LXCE
+ \ganttgroup[inline=false]{lxce}{3}{16}\\
+ \ganttbar[progress=100,bar/.style={draw,fill=red}]{v0.1}{3}{5} \\
+ \ganttbar[progress=100,bar/.style={draw,fill=red}]{v0.2}{6}{8} \\
+ \ganttbar[progress=100,bar/.style={draw,fill=red}]{v0.3}{9}{16} \\
+
+ % LXCE-ADMIN
+ \ganttgroup[inline=false]{lxce-admin}{14}{16}\\
+ \ganttbar[progress=100,bar/.style={draw,fill=white}]{v0.1}{14}{16} \\
+
+ % WEB ADMIN
+ \ganttgroup[inline=false]{Web admin application}{17}{20}\\
+ \ganttbar[progress=100,bar/.style={draw,fill=black}]{Learn React/redux}{17}{19} \\
+ \ganttbar[progress=100,bar/.style={draw,fill=black}]{Implement application}{20}{20} \\
+
+ % THESIS
+ \ganttgroup[inline=false]{Thesis}{20}{26}\\
+ \ganttbar[progress=100,bar/.style={draw,fill=green}]{Writing thesis}{20}{22} \\
+ \ganttbar[progress=100,bar/.style={draw,fill=green}]{Presentation}{23}{26} \\
+
+ % relations
+\ganttlink{elem2}{elem4}
+\ganttlink{elem8}{elem10}
+\ganttlink{elem10}{elem13}
+
+
+\end{ganttchart}
